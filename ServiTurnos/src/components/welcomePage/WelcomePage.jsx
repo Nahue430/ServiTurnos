@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import Register from "../register/Register";
 
 
 
@@ -9,7 +10,7 @@ const WelcomePage = () => {
         if (type === 'login') {
             navigate('/login'); 
         } else {
-            navigate('/register'); 
+            navigate('../register'); 
         }
     };
     
