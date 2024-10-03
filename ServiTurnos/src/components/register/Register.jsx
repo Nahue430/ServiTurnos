@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+
 
 
 
@@ -9,7 +12,10 @@ const Register = () => {
   const [email, setEmail] = useState('');
   const [userType, setUserType] = useState('cliente');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
   
+  
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -33,6 +39,10 @@ const Register = () => {
 
     // Aquí puedes manejar el registro (enviar a la API, etc.)
     console.log({ upperCaseUsername, upperCasePassword, upperCaseEmail, userType });
+  };
+
+  const handleBack =()=> {
+    navigate('/');
   };
 
   return (
@@ -99,6 +109,7 @@ const Register = () => {
 
         <button type="submit">Registrarse</button>
       </form>
+      <button onClick={handleBack}>Volver</button>
     </div>
   );
 };
