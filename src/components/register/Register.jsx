@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-
-
-
-
 const Register = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -13,15 +9,11 @@ const Register = () => {
   const [userType, setUserType] = useState('cliente');
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  
-  
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setError('');
 
-    // Validaciones
     if (!username.trim() || !password.trim() || !email.trim()) {
       setError('Todos los campos son obligatorios y no pueden contener solo espacios.');
       return;
@@ -32,16 +24,14 @@ const Register = () => {
       return;
     }
 
-    // Convertir a mayúsculas
     const upperCaseUsername = username.toUpperCase();
     const upperCaseEmail = email.toUpperCase();
     const upperCasePassword = password.toUpperCase();
 
-    // Aquí puedes manejar el registro (enviar a la API, etc.)
     console.log({ upperCaseUsername, upperCasePassword, upperCaseEmail, userType });
   };
 
-  const handleBack =()=> {
+  const handleBack = () => {
     navigate('/');
   };
 
