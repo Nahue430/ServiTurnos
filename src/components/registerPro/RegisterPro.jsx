@@ -36,7 +36,7 @@ const RegisterPro = () => {
   };
 
   const handleBack = () => {
-    navigate('/');
+    navigate('/Register');
   };
 
   return (
