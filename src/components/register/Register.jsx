@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 
 const Register = () => {
   const [username, setUsername] = useState('');
@@ -106,8 +107,9 @@ const Register = () => {
 
         <button type="submit">Registrarse</button>
       </form>
-
-      <button onClick={handleBack}>Volver</button>
+      <Button type="button" variant="secondary" onClick={handleBack} className="ms-2">
+                Volver
+            </Button>
     </div>
   );
 };
