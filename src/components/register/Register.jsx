@@ -21,6 +21,16 @@ const Register = () => {
       return;
     }
 
+    if (username.length < 5 || username.length > 15) {
+      setError('El nombre de usuario debe tener entre 5 y 15 caracteres.');
+      return;
+    }
+
+    if (/\s/.test(username)) {
+      setError('El nombre de usuario no puede contener espacios.');
+      return;
+    }
+
     if (password !== confirmPassword) {
       alert('Las contraseñas no coinciden. Por favor, ingréselas nuevamente.');
       return;
