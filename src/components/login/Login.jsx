@@ -17,9 +17,10 @@ const Login = () => {
       </Form.Group>
 
       <Button variant="primary">Ingresar</Button>{' '}
-      <Button variant="primary">Registrarse</Button>{' '}
+      
       <button onClick={handleBack}>Volver</button>
     </>
+    
   );
 };
 

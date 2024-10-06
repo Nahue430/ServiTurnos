@@ -20,7 +20,7 @@ const Register = () => {
     }
 
     if (password !== confirmPassword) {
-      setError('Las contraseñas no coinciden.');
+      alert('Las contraseñas no coinciden.');
       return;
     }
 
