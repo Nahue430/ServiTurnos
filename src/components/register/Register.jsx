@@ -14,21 +14,26 @@ const Register = () => {
     e.preventDefault();
     setError('');
 
+    // Validación de campos
     if (!username.trim() || !password.trim() || !email.trim()) {
       setError('Todos los campos son obligatorios y no pueden contener solo espacios.');
       return;
     }
 
     if (password !== confirmPassword) {
-      alert('Las contraseñas no coinciden.');
+      alert('Las contraseñas no coinciden. Por favor, ingréselas nuevamente.');
       return;
     }
 
-    const upperCaseUsername = username.toUpperCase();
-    const upperCaseEmail = email.toUpperCase();
-    const upperCasePassword = password.toUpperCase();
+    if (userType === 'profesional') {
+      // Si el tipo de usuario es "profesional", mostrar un alert y redirigir
+      alert('¡Perfecto! Solo necesitamos algunos datos más.');
+      navigate('/registerPro');  // Redirigir al siguiente componente de registro profesional
+      return;
+    }
 
-    console.log({ upperCaseUsername, upperCasePassword, upperCaseEmail, userType });
+    // Si es cliente, puedes procesar la información o redirigir a donde necesites
+    console.log({ username, email, userType });
   };
 
   const handleBack = () => {
@@ -97,8 +102,11 @@ const Register = () => {
           </label>
         </div>
 
+        {error && <p style={{ color: 'red' }}>{error}</p>}  {/* Mensaje de error si hay alguno */}
+
         <button type="submit">Registrarse</button>
       </form>
+
       <button onClick={handleBack}>Volver</button>
     </div>
   );
