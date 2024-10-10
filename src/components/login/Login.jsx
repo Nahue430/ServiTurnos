@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Button, Alert } from 'react-bootstrap';
+import { Form, Button, Alert, Col, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
@@ -57,13 +57,14 @@ const Login = () => {
 
                 
                 {error && <Alert variant="danger">{error}</Alert>}
-
+                <Row style={{padding: '10px'}}>
+                    <Col>
                 <Button variant="primary" type="submit">Ingresar</Button>{' '}
-
-                <Button type="button" variant="secondary" onClick={handleBack} className="ms-2">
-                    Volver
-                </Button>
-
+                    </Col>
+                    <Col>
+                <Button type="button" variant="secondary" onClick={handleBack} className="ms-2">Volver</Button>
+                    </Col>
+                </Row>
                 <div className="mt-3">
                     
                     <span
@@ -79,4 +80,3 @@ const Login = () => {
 };
 
 export default Login;
-

@@ -44,6 +44,13 @@ const Register = () => {
       return;
     }
 
+    if (userType === 'cliente') {
+      // Si el tipo de usuario es "cliente", crear cuenta y redirigir a página principal
+      alert('¡Cuenta creada con éxito!');
+      navigate('/homeClient'); // Redirigir a la página principal
+      return;
+    }
+
     // Si es cliente, puedes procesar la información o redirigir a donde necesites
     console.log({ username, email, userType });
   };
