@@ -1,0 +1,15 @@
+.foto-perfil {
+    width: 150px;           
+    height: 150px;         
+    object-fit: cover;      
+    border-radius: 50%;     
+  }
+  
+  .foto-container {
+    display: flex;                  
+    justify-content: center;        
+    align-items: center;            
+    width: 150px;                   
+    height: 150px;                  
+    margin-bottom: 10px;            
+  }
