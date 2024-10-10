@@ -1,0 +1,100 @@
+/* Estilos generales */
+.register-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f0f2f5;
+    padding: 20px;
+  }
+  
+  .register-form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  input, select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  input:focus, select:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+  
+  .error-message {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 15px;
+  }
+  
+  .btn-submit {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .btn-submit:hover {
+    background-color: #0056b3;
+  }
+  
+  .btn-back {
+    font-size: 14px;
+    padding: 10px;
+    margin-left: 10px; /* Espacio entre los botones */
+  }
+  
+  /* Estilos para alinear los botones en una fila */
+  .button-group {
+    display: flex;
+    justify-content: space-between; /* Espacia los botones */
+    margin-top: 15px;
+  }
+  
+  @media (max-width: 600px) {
+    .register-container {
+      padding: 10px;
+    }
+  
+    .register-form {
+      padding: 15px;
+    }
+  
+    .button-group {
+      flex-direction: column; /* Para pantallas pequeñas, botones en columna */
+    }
+  
+    .btn-back {
+      margin-left: 0;
+      margin-top: 10px;
+    }
+  }
+  

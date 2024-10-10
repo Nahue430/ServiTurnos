@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {Row, Col, Button} from 'react-bootstrap'
 
 const RegisterPro = () => {
   const navigate = useNavigate();
@@ -87,10 +88,16 @@ const RegisterPro = () => {
 
         {error && <p style={{ color: 'red' }}>{error}</p>}  {/* Mostrar mensaje de error si es necesario */}
 
-        <button type="submit">Registrar</button>
+        <Row style={{padding: '10px'}}>
+          <Col md="7">
+        <Button type="submit"  variant="success" className="ms-2">Registrarse</Button>
+        </Col>
+        <Col md="5">
+        <Button type="button" variant="secondary" onClick={handleBack} className="ms-2">Volver</Button>
+        </Col>
+        </Row>
       </form>
 
-      <button onClick={handleBack}>Volver</button>
     </div>
   );
 };

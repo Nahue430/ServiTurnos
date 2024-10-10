@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
+import { Button, Row, Col } from 'react-bootstrap';
+import './Register.css';
 
 const Register = () => {
   const [username, setUsername] = useState('');
@@ -113,13 +114,19 @@ const Register = () => {
           </label>
         </div>
 
-        {error && <p style={{ color: 'red' }}>{error}</p>}  {/* Mensaje de error si hay alguno */}
-
-        <button type="submit">Registrarse</button>
+        {error && <p style={{ color: 'red' }}>{error}</p>} 
+        <Row style={{padding: '10px'}}>
+          <Col md="7">
+        <Button type="submit"  variant="success" className="ms-2">Registrarse</Button>
+        </Col>
+        <Col md="5">
+        <Button type="button" variant="secondary" onClick={handleBack} className="ms-2">Volver</Button>
+        </Col>
+        </Row>
       </form>
-      <Button type="button" variant="secondary" onClick={handleBack} className="ms-2">
-                Volver
-            </Button>
+      
+    
+          
     </div>
   );
 };
