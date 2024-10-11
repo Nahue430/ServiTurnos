@@ -33,7 +33,7 @@ const HomeProfessional = () => {
           <Nav.Link as={Link} to="/homeProfessional" className="mx-3">Perfil</Nav.Link>
           <Nav.Link as={Link} to="/buscar" className="mx-3">Buscar</Nav.Link>
           <Nav.Link as={Link} to="/reservas" className="mx-3">Reservas</Nav.Link>
-          <Nav.Link as={Link} to="/salir" className="mx-3">Salir</Nav.Link>
+          <Nav.Link as={Link} to="/" className="mx-3">Salir</Nav.Link>
         </Nav>
       </Navbar>
 
