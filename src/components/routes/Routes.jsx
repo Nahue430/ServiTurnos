@@ -5,6 +5,7 @@ import Login from '../login/Login';
 import RegisterPro from '../registerPro/RegisterPro';
 import ResetPassword from '../resetPassword/ResetPassword';
 import HomeClient from '../homeClient/HomeClient';
+import HomeProfessional from '../homeProfessional/HomeProfessional';
 
 
 const RoutesComponent = () => { 
@@ -17,6 +18,7 @@ const RoutesComponent = () => {
         <Route path="/registerPro" element={<RegisterPro/>} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/homeClient" element={<HomeClient />} />
+        <Route path="/homeProfessional" element={<HomeProfessional />} />
       </Routes>
     </Router>
   );

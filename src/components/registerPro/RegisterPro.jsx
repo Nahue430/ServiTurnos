@@ -33,7 +33,7 @@ const RegisterPro = () => {
     console.log({ rubro, matricula, tarifaBase });
 
     // Redirigir al siguiente paso
-    navigate('/success');  // Redirigir al componente de gestión de perfil de profesional
+    navigate('/HomeProfessional');  // Redirigir al componente de gestión de perfil de profesional
   };
 
   const handleBack = () => {

@@ -1,0 +1,45 @@
+.foto-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;  /* Centra la imagen horizontalmente */
+  align-items: center;      /* Centra la imagen verticalmente */
+  width: 100%;              /* Ajuste al tamaño disponible dentro del contenedor */
+  height: auto;             /* La altura se ajustará automáticamente según la imagen */
+  margin-bottom: 0.625em;   /* Espacio debajo del contenedor */
+}
+
+.foto-generica{
+  width: 12em;
+  height: 12em;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.foto-perfil {
+    width: 12em;           /* Imagen de 12em de ancho y alto */
+    height: 12em;          
+    object-fit: cover;     /* Asegura que la imagen mantenga su proporción */
+    border-radius: 50%;    /* Imagen circular */
+  }
+
+  .colorLabelPhoto{
+      border: 1px solid black;
+      padding: 10px;
+      border-radius: 2em;
+      cursor: pointer;
+      background-color: white;
+      transition: background-color 0.3s ease; /* Suaviza el cambio de color */
+    }
+    
+    .colorLabelPhoto:hover {
+      background-color: #f0f0f0; /* Color en hover */
+    }
+  
+
+ /* Esto oculta el input de tipo file */
+  input[type="file"] {
+    display: none; 
+  }
+    
+
+  
