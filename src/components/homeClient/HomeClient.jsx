@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
-import { Form, Button, Row, Col } from 'react-bootstrap';
+import React, { useState } from "react";
+import { Form, Button, Row, Col } from "react-bootstrap";
+import "./HomeClient.css";
 //import './Perfil.css'; // Aquí agregarías los estilos personalizados.
 
 const HomeClient = () => {
-  const [username, setUsername] = useState('');
-  const [nombre, setNombre] = useState('');
-  const [ubicacion, setUbicacion] = useState('');
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState("");
+  const [nombre, setNombre] = useState("");
+  const [ubicacion, setUbicacion] = useState("");
+  const [email, setEmail] = useState("");
   const [foto, setFoto] = useState(null);
   const [editMode, setEditMode] = useState(false);
 
@@ -27,21 +28,25 @@ const HomeClient = () => {
     <div className="perfil-container">
       <h1>Perfil</h1>
       <Row className="perfil-row">
-        <Col md={4}>
+        <Col md={6}>
           <div className="foto-container">
             {foto ? (
               <img src={foto} alt="Foto de perfil" className="foto-perfil" />
             ) : (
-              <div className="foto-placeholder">FOTO</div>
+              <img src="https://www.shutterstock.com/image-vector/default-avatar-profile-icon-vector-600nw-1745180411.jpg" alt="foto-genérica" className="foto-generica" />
             )}
             <Form.Group controlId="formFile" className="mt-2">
-              <Form.Label>Cambiar Foto de Perfil</Form.Label>
-              <Form.Control type="file" accept="image/*" onChange={handleFotoChange} />
+              <Form.Label className="colorLabelPhoto">Cambiar foto de perfil</Form.Label>
+              <Form.Control
+                type="file"
+                accept="image/*"
+                onChange={handleFotoChange}
+              />
             </Form.Group>
           </div>
         </Col>
 
-        <Col md={8}>
+        <Col md={6}>
           <Form>
             <Form.Group as={Row} className="mb-3">
               <Form.Label column sm="4">
@@ -105,7 +110,7 @@ const HomeClient = () => {
                   Guardar Cambios
                 </Button>
               ) : (
-                <Button variant="secondary" onClick={toggleEditMode}>
+                <Button variant="secondary" onClick={toggleEditMode} >
                   Editar Perfil
                 </Button>
               )}
