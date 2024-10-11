@@ -4,10 +4,10 @@ import { Link } from "react-router-dom"; // Importamos Link para navegación
 import "./HomeClient.css";
 
 const HomeClient = () => {
-  const [username, setUsername] = useState("JuanPe22");
-  const [nombre, setNombre] = useState("Juan Perez");
-  const [ubicacion, setUbicacion] = useState("Rosario, Centro");
-  const [email, setEmail] = useState("juan_p88@gmail.com");
+  const [username, setUsername] = useState("");
+  const [nombre, setNombre] = useState("");
+  const [ubicacion, setUbicacion] = useState("");
+  const [email, setEmail] = useState("");
   const [foto, setFoto] = useState(null);
   const [editMode, setEditMode] = useState(false);
 
