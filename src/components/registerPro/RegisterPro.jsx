@@ -42,6 +42,7 @@ const RegisterPro = () => {
 
   return (
     <div>
+      
       <h1>Registrarse como Profesional</h1>
       <form onSubmit={handleSubmit}>
         <div>

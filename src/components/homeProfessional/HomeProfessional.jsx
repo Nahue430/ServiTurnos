@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Form, Button, Row, Col } from 'react-bootstrap';
-//import './Perfil.css'; // Aquí agregarías los estilos personalizados.
+import { Form, Button, Row, Col, Navbar, Nav } from 'react-bootstrap';
+import { Link } from 'react-router-dom';  // Importa Link de react-router-dom
 
 const HomeProfessional = () => {
   const [username, setUsername] = useState('');
@@ -28,6 +28,15 @@ const HomeProfessional = () => {
 
   return (
     <div className="perfil-container">
+      <Navbar bg="dark" variant="dark">
+        <Nav className="w-100 justify-content-between"> 
+          <Nav.Link as={Link} to="/homeProfessional" className="mx-3">Perfil</Nav.Link>
+          <Nav.Link as={Link} to="/buscar" className="mx-3">Buscar</Nav.Link>
+          <Nav.Link as={Link} to="/reservas" className="mx-3">Reservas</Nav.Link>
+          <Nav.Link as={Link} to="/salir" className="mx-3">Salir</Nav.Link>
+        </Nav>
+      </Navbar>
+
       <h1>Perfil</h1>
       <Row className="perfil-row">
         <Col md={4}>
@@ -161,4 +170,4 @@ const HomeProfessional = () => {
   );
 };
 
-export default HomeProfessional;
+export default HomeProfessional;
