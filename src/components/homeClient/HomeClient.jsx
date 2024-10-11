@@ -1,15 +1,13 @@
 import React, { useState } from "react";
-import { Form, Button, Row, Col } from "react-bootstrap";
+import { Form, Button, Row, Col, Navbar, Nav } from "react-bootstrap";
+import { Link } from "react-router-dom"; // Importamos Link para navegación
 import "./HomeClient.css";
 
-
-//import './Perfil.css'; // Aquí agregarías los estilos personalizados.
-
 const HomeClient = () => {
-  const [username, setUsername] = useState("");
-  const [nombre, setNombre] = useState("");
-  const [ubicacion, setUbicacion] = useState("");
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("JuanPe22");
+  const [nombre, setNombre] = useState("Juan Perez");
+  const [ubicacion, setUbicacion] = useState("Rosario, Centro");
+  const [email, setEmail] = useState("juan_p88@gmail.com");
   const [foto, setFoto] = useState(null);
   const [editMode, setEditMode] = useState(false);
 
@@ -28,6 +26,17 @@ const HomeClient = () => {
 
   return (
     <div className="perfil-container">
+      
+      <Navbar bg="dark" variant="dark">
+        <Nav className="w-100 justify-content-between"> 
+          <Nav.Link as={Link} to="/homeClient" className="mx-3">Perfil</Nav.Link>
+          <Nav.Link as={Link} to="/buscar" className="mx-3">Buscar</Nav.Link> {/* ACÁ PONEMOS LOS OTROS PATH */}
+          <Nav.Link as={Link} to="/reservas" className="mx-3">Reservas</Nav.Link> {/* ACÁ PONEMOS LOS OTROS PATH */}
+          <Nav.Link as={Link} to="/salir" className="mx-3">Salir</Nav.Link> {/* ACÁ PONEMOS LOS OTROS PATH */}
+        </Nav>
+      </Navbar>
+
+      {/* Perfil */}
       <h1>Perfil</h1>
       <Row className="perfil-row">
         <Col md={6}>
@@ -112,7 +121,7 @@ const HomeClient = () => {
                   Guardar Cambios
                 </Button>
               ) : (
-                <Button variant="secondary" onClick={toggleEditMode} >
+                <Button variant="secondary" onClick={toggleEditMode}>
                   Editar Perfil
                 </Button>
               )}
