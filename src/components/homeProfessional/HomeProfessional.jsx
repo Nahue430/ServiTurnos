@@ -9,6 +9,7 @@ const HomeProfessional = () => {
   const [email, setEmail] = useState('');
   const [rubro, setRubro] = useState('');
   const [horarios, setHorarios] = useState('');
+  const [tarifa, setTarifa] = useState('');
   const [foto, setFoto] = useState(null);
   const [editMode, setEditMode] = useState(false);
 
@@ -111,6 +112,19 @@ const HomeProfessional = () => {
                   value={rubro}
                   readOnly={!editMode}
                   onChange={(e) => setRubro(e.target.value)}
+                />
+              </Col>
+            </Form.Group>
+            <Form.Group as={Row} className="mb-3">
+              <Form.Label column sm="4">
+                Tarifa:
+              </Form.Label>
+              <Col sm="8">
+                <Form.Control
+                  type="text"
+                  value={tarifa}
+                  readOnly={!editMode}
+                  onChange={(e) => setTarifa(e.target.value)}
                 />
               </Col>
             </Form.Group>

@@ -124,7 +124,7 @@ const Register = () => {
         {error && <p style={{ color: 'red' }}>{error}</p>} 
         <Row style={{padding: '10px'}}>
           <Col md="7">
-        <Button type="submit"  variant="success" className="ms-2">Registrarse</Button>
+        <Button type="submit"  variant="primary" className="ms-2">Registrarse</Button>
         </Col>
         <Col md="5">
         <Button type="button" variant="secondary" onClick={handleBack} className="ms-2">Volver</Button>
