@@ -45,7 +45,7 @@ const WelcomePage = () => {
             <button style={buttonStyle} onClick={() => handleNavigation('login')}>Iniciar sesión</button>
             <button style={buttonStyle} onClick={() => handleNavigation('register')}>Registrarse</button>
             <div style={aboutSectionStyle}>
-                <div style={textstyle}>
+                <div style={textStyle}>
                     <h3>Sobre nosotros</h3>
                     <p>Nuestro objetivo es brindar a la población una forma más fácil y segura de conectarse con profesionales de diversas áreas.
                     A través de nuestra plataforma, los usuarios podrán acceder a servicios especializados, agendar citas de manera rápida y sin preocupaciones, eliminando las barreras tradicionales de comunicación.
