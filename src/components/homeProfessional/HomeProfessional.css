@@ -1,0 +1,52 @@
+/* HomeProfessional.css */
+
+/* Estilo del Navbar */
+.navbar-custom {
+    width: 100%; /* Asegura que el Navbar ocupe todo el ancho */
+    position: fixed; /* Mantiene el Navbar en la parte superior */
+    top: 0; /* Alinea el Navbar en la parte superior */
+    left: 0; /* Alinea el Navbar a la izquierda */
+    z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
+    margin-top: 4.72em; /* Espacio debajo del Navbar */
+}
+
+.perfil-container {
+    margin-top: 60px; /* Añade margen para no ocultar el contenido detrás del navbar */
+    padding: 20px; /* Espaciado interno para la sección del perfil */
+}
+
+/* Estilo para la sección de la foto de perfil */
+.foto-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px; /* Espacio inferior para separar de otros elementos */
+}
+
+.foto-perfil {
+    width: 150px; /* Ajusta según tus necesidades */
+    height: 150px; /* Ajusta según tus necesidades */
+    border-radius: 50%; /* Bordes redondeados para la foto de perfil */
+    object-fit: cover; /* Asegura que la imagen llene el contenedor sin distorsión */
+}
+
+.foto-placeholder {
+    width: 150px; /* Ajusta según tus necesidades */
+    height: 150px; /* Ajusta según tus necesidades */
+    border: 2px dashed #ccc; /* Estilo del borde */
+    border-radius: 50%; /* Bordes redondeados */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f9fa; /* Color de fondo del placeholder */
+}
+
+/* Estilo de etiquetas y textos */
+.colorLabelPhoto {
+    color: #fff; /* Color del texto de la etiqueta */
+}
+
+/* Estilos para formularios */
+.form-control {
+    border-radius: 0.5em; /* Bordes redondeados */
+}

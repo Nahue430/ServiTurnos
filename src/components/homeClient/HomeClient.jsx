@@ -27,7 +27,7 @@ const HomeClient = () => {
   return (
     <div className="perfil-container">
       
-      <Navbar bg="dark" variant="dark" className="w-100">
+      <Navbar bg="dark" variant="dark" className="navbar-custom">
         <Nav className="container-fluid justify-content-between"> 
           <Nav.Link as={Link} to="/homeClient" className="mx-3">Perfil</Nav.Link>
           <Nav.Link as={Link} to="/clientSearch" className="mx-3">Buscar</Nav.Link> {/* ACÁ PONEMOS LOS OTROS PATH */}

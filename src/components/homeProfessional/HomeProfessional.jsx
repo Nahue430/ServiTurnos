@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button, Row, Col, Navbar, Nav } from 'react-bootstrap';
 import { Link } from 'react-router-dom';  // Importa Link de react-router-dom
+import "./HomeProfessional.css"
 
 const HomeProfessional = () => {
   const [username, setUsername] = useState('');
@@ -28,8 +29,8 @@ const HomeProfessional = () => {
 
   return (
     <div className="perfil-container">
-      <Navbar bg="dark" variant="dark">
-        <Nav className="w-100 justify-content-between"> 
+      <Navbar bg="dark" variant="dark" className="navbar-custom">
+        <Nav className="container-fluid justify-content-between"> 
           <Nav.Link as={Link} to="/homeProfessional" className="mx-3">Perfil</Nav.Link>
           <Nav.Link as={Link} to="/buscar" className="mx-3">Buscar</Nav.Link>
           <Nav.Link as={Link} to="/reservas" className="mx-3">Reservas</Nav.Link>
