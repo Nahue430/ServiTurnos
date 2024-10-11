@@ -6,6 +6,7 @@ import RegisterPro from '../registerPro/RegisterPro';
 import ResetPassword from '../resetPassword/ResetPassword';
 import HomeClient from '../homeClient/HomeClient';
 import HomeProfessional from '../homeProfessional/HomeProfessional';
+import ClientSearch from '../clientSearch/ClientSearch';
 
 
 const RoutesComponent = () => { 
@@ -19,6 +20,7 @@ const RoutesComponent = () => {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/homeClient" element={<HomeClient />} />
         <Route path="/homeProfessional" element={<HomeProfessional />} />
+        <Route path="/clientSearch" element={<ClientSearch />} />
       </Routes>
     </Router>
   );
