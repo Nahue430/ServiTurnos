@@ -1,0 +1,29 @@
+
+.buttonStyle {
+    background-color: brown; /* Cambiado a guiones en lugar de camelCase */
+    color: white;
+    border: 3px solid lightgrey; /* Ajustado para que sea un borde sólido */
+    padding: 10px 20px;
+    cursor: pointer; /* Sin comillas */
+    border-radius: 5px; /* Cambiado a guiones en lugar de camelCase */
+    transition: background-color 0.3s;
+}
+
+.aboutSectionStyle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: 30px; /* Espacio entre los botones y la sección "Sobre nosotros" */
+    padding: 20px;
+    background-color: #f8f9fa; /* Color de fondo */
+    border-radius: 8px;
+}
+
+.textStyle {
+    font-size: 16px; /* Tamaño de fuente */
+    line-height: 1.6; /* Espacio entre líneas */
+    word-wrap: break-word; /* Rompe palabras largas */
+    max-width: 800px; /* Ancho máximo */
+    margin: 0 auto; /* Centrar texto */
+}
