@@ -7,7 +7,9 @@ import ResetPassword from '../resetPassword/ResetPassword';
 import HomeClient from '../homeClient/HomeClient';
 import HomeProfessional from '../homeProfessional/HomeProfessional';
 import ClientSearch from '../clientSearch/ClientSearch';
-
+//debemos importar rutas privadas a este componente.
+//ruta privadas debe ir en otro componente.
+// 
 
 const RoutesComponent = () => { 
   return (
