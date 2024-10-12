@@ -1,15 +1,5 @@
 /* HomeProfessional.css */
 
-/* Estilo del Navbar */
-.navbar-custom {
-    width: 100%; /* Asegura que el Navbar ocupe todo el ancho */
-    position: fixed; /* Mantiene el Navbar en la parte superior */
-    top: 0; /* Alinea el Navbar en la parte superior */
-    left: 0; /* Alinea el Navbar a la izquierda */
-    z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
-    margin-top: 4.72em; /* Espacio debajo del Navbar */
-}
-
 .perfil-container {
     margin-top: 60px; /* Añade margen para no ocultar el contenido detrás del navbar */
     padding: 20px; /* Espaciado interno para la sección del perfil */

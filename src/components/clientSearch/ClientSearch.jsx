@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Form, Button, Row, Col, Navbar, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom"; // Importamos Link para navegación
+import "./ClientSearch.css"
 
 const ClientSearch = () => {
   const [nombre, setNombre] = useState("");
@@ -20,7 +21,7 @@ const ClientSearch = () => {
 
   return (
     <div className="buscar-container">
-      <Navbar bg="dark" variant="dark">
+      <Navbar bg="dark" variant="dark" expand="lg" fixed="top" className="w-100" style={{marginTop:"75.5px"}}>
         <Nav className="w-100 justify-content-between">
           <Nav.Link as={Link} to="/homeClient" className="mx-3">Perfil</Nav.Link>
           <Nav.Link as={Link} to="/clientSearch" className="mx-3">Buscar</Nav.Link>

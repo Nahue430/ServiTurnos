@@ -27,12 +27,12 @@ const HomeClient = () => {
   return (
     <div className="perfil-container">
       
-      <Navbar bg="dark" variant="dark" className="navbar-custom">
-        <Nav className="container-fluid justify-content-between"> 
+      <Navbar bg="dark" variant="dark" expand="lg" fixed="top" className="w-100" style={{marginTop:"75.5px"}}>
+        <Nav className="w-100 justify-content-between">
           <Nav.Link as={Link} to="/homeClient" className="mx-3">Perfil</Nav.Link>
-          <Nav.Link as={Link} to="/clientSearch" className="mx-3">Buscar</Nav.Link> {/* ACÁ PONEMOS LOS OTROS PATH */}
-          <Nav.Link as={Link} to="/reservas" className="mx-3">Reservas</Nav.Link> {/* ACÁ PONEMOS LOS OTROS PATH */}
-          <Nav.Link as={Link} to="/" className="mx-3">Salir</Nav.Link> {/* ACÁ PONEMOS LOS OTROS PATH */}
+          <Nav.Link as={Link} to="/clientSearch" className="mx-3">Buscar</Nav.Link>
+          <Nav.Link as={Link} to="/reservas" className="mx-3">Reservas</Nav.Link>
+          <Nav.Link as={Link} to="/" className="mx-3">Salir</Nav.Link>
         </Nav>
       </Navbar>
 
