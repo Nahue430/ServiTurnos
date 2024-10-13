@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Form, Button, Row, Col, Navbar, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom"; // Importamos Link para navegación
-import "./ClientSearch.css"
 
 const ClientSearch = () => {
   const [nombre, setNombre] = useState("");
