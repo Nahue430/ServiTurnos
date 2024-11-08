@@ -30,7 +30,31 @@ const AuthenticationContextProvider = ({ children }) => {
             });
 
             if (!response.ok) {
-                throw new Error("Error al registrar cliente");
+                throw new Error("Error al registrar usuario");
+            }
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.log(error);
+            return null;
+        }
+    };
+
+    const CreateProfessional = async (professionalRequest) => {
+        try {                                  // Cambio de path //
+            const response = await fetch(URL + "professional", {
+                // Metodo post del cliente //
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    // Propio del metodo customer //
+                    accept: '*/*',
+                },
+                body: JSON.stringify(professionalRequest),
+            });
+
+            if (!response.ok) {
+                throw new Error("Error al registrar usuario");
             }
             const data = await response.json();
             return data;
@@ -67,7 +91,7 @@ const AuthenticationContextProvider = ({ children }) => {
     };
 
     // Le paso a data por props, todos los metodos para retornarlos como valores en el componente AuthenticationContextProvider //
-    const data = { CreateCustomer, LoginUser, user };
+    const data = { CreateCustomer, LoginUser, user, CreateProfessional };
     return (<AuthenticationContext.Provider value={data}>
         {children}
     </AuthenticationContext.Provider>

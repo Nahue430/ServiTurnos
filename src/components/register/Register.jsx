@@ -1,23 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Row, Col } from 'react-bootstrap';
 import './Register.css';
+import { AuthenticationContext } from '../../context/authenticationContext/AuthenticationContext'; // Importación de AuthenticationContext //
 
 const Register = () => {
+  const { CreateCustomer } = useContext(AuthenticationContext);
+  const { CreateProfessional } = useContext(AuthenticationContext);  
+
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [dni, setDni] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  // const [confirmPassword, setConfirmPassword] = useState('');
   const [email, setEmail] = useState('');
   const [userType, setUserType] = useState('cliente');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
 
     // Validación de campos
-    if (!username.trim() || !password.trim() || !email.trim()) {
+    if (!username.trim() || !password.trim() || !email.trim() || !firstName.trim() || !lastName.trim() || !dni.trim()) {
       setError('Todos los campos son obligatorios y no pueden contener solo espacios.');
       return;
     }
@@ -32,28 +38,50 @@ const Register = () => {
       return;
     }
 
-    if (password !== confirmPassword) {
-      alert('Las contraseñas no coinciden. Por favor, ingréselas nuevamente.');
-      return;
+    // if (password !== confirmPassword) {
+    //   alert('Las contraseñas no coinciden. Por favor, ingréselas nuevamente.');
+    //   return;
+    // }
+
+    // División de usuarios //
+
+    if (userType === 'cliente') {
+
+      const customerRequest = {
+        username,
+        password,
+        firstName,
+        lastName,
+        dni,
+        email,
+      };
+
+
+      const response = await CreateCustomer(customerRequest);
+      console.log(response);
+      alert('Cliente registrado con exito');
     }
 
     if (userType === 'profesional') {
-      // Si el tipo de usuario es "profesional", mostrar un alert y redirigir
-      alert('¡Perfecto! Solo necesitamos algunos datos más.');
-      navigate('/registerPro');  // Redirigir al siguiente componente de registro profesional
-      return;
+
+      const professionalRequest = {
+        username,
+        password,
+        firstName,
+        lastName,
+        dni,
+        email,
+      };
+
+
+      const response = await CreateProfessional(professionalRequest);
+      console.log(response);
+      alert('Profesonal registrado con exito');
     }
 
-    if (userType === 'cliente') {
-      // Si el tipo de usuario es "cliente", crear cuenta y redirigir a página principal
-      alert('¡Cuenta creada con éxito!');
-      navigate('/homeClient'); // Redirigir a la página principal
-      return;
-    }
-
-    // Si es cliente, puedes procesar la información o redirigir a donde necesites
-    console.log({ username, email, userType });
+    navigate('/login');
   };
+
 
   const handleBack = () => {
     navigate('/');
@@ -87,13 +115,49 @@ const Register = () => {
           </label>
         </div>
 
-        <div>
+        {/* <div>
           <label>
             Repita la contraseña ingresada:
             <input
               type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+          </label>
+        </div> */}
+
+        <div>
+          <label>
+            Ingrese su nombre:
+            <input
+              type="text"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              required
+            />
+          </label>
+        </div>
+
+        <div>
+          <label>
+            Ingrese su apellido:
+            <input
+              type="text"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              required
+            />
+          </label>
+        </div>
+
+        <div>
+          <label>
+            Ingrese su dni:
+            <input
+              type="number"
+              value={dni}
+              onChange={(e) => setDni(e.target.value)}
               required
             />
           </label>
@@ -121,19 +185,19 @@ const Register = () => {
           </label>
         </div>
 
-        {error && <p style={{ color: 'red' }}>{error}</p>} 
-        <Row style={{padding: '10px'}}>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        <Row style={{ padding: '10px' }}>
           <Col md="7">
-        <Button type="submit"  variant="primary" className="ms-2">Registrarse</Button>
-        </Col>
-        <Col md="5">
-        <Button type="button" variant="secondary" onClick={handleBack} className="ms-2">Volver</Button>
-        </Col>
+            <Button type="submit" variant="primary" className="ms-2">Registrarse</Button>
+          </Col>
+          <Col md="5">
+            <Button type="button" variant="secondary" onClick={handleBack} className="ms-2">Volver</Button>
+          </Col>
         </Row>
       </form>
-      
-    
-          
+
+
+
     </div>
   );
 };
