@@ -1,6 +1,5 @@
 import { createContext, useState } from 'react';
 
-
 // Crear el contexto //
 const AuthenticationContext = createContext();
 
@@ -66,6 +65,7 @@ const AuthenticationContextProvider = ({ children }) => {
             return null;
         };
     };
+
     // Le paso a data por props, todos los metodos para retornarlos como valores en el componente AuthenticationContextProvider //
     const data = { CreateCustomer, LoginUser, user };
     return (<AuthenticationContext.Provider value={data}>
