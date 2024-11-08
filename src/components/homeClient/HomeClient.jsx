@@ -1,15 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Form, Button, Row, Col, Navbar, Nav } from "react-bootstrap";
-import { Link } from "react-router-dom"; // Importamos Link para navegación
-import "./HomeClient.css";
+import { Link } from "react-router-dom";
+import { AuthenticationContext } from '../../context/authenticationContext/AuthenticationContext';  // Asegúrate de importar el contexto
 
 const HomeClient = () => {
+  const { getCustomerById, user } = useContext(AuthenticationContext); // Usar el contexto
   const [username, setUsername] = useState("");
   const [nombre, setNombre] = useState("");
-  const [ubicacion, setUbicacion] = useState("");
+  const [password, setPassword] = useState("");  // Cambié "ubicacion" a "password"
   const [email, setEmail] = useState("");
   const [foto, setFoto] = useState(null);
   const [editMode, setEditMode] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      // El token contiene el ID del usuario, lo obtenemos del payload
+      const decodedToken = JSON.parse(atob(user.split('.')[1])); // Decodificamos el token JWT
+      const customerId = decodedToken.Id; // Suponiendo que el ID está en el campo 'Id'
+  
+      // Llamamos al método para obtener los datos del cliente
+      const fetchCustomerData = async () => {
+        const customerData = await getCustomerById(customerId);
+        if (customerData) {
+          // Ahora, usamos las propiedades correctas basadas en la respuesta de la API
+          setUsername(customerData.userName); // 'userName' en lugar de 'username'
+          setNombre(`${customerData.firstName} ${customerData.lastName}`); // Combinar 'firstName' y 'lastName' para el nombre completo
+          setEmail(customerData.email); // 'email' está bien
+          // Aquí ya no utilizamos 'location', sino 'password'
+          setPassword(customerData.password || ""); // Asegúrate de tener un campo 'password' en la API
+        }
+      };
+  
+      fetchCustomerData();
+    }
+  }, [user, getCustomerById]);
 
   const handleFotoChange = (e) => {
     setFoto(URL.createObjectURL(e.target.files[0]));
@@ -26,8 +50,7 @@ const HomeClient = () => {
 
   return (
     <div className="perfil-container">
-      
-      <Navbar bg="dark" variant="dark" expand="lg" fixed="top" className="w-100" style={{marginTop:"75.5px"}}>
+      <Navbar bg="dark" variant="dark" expand="lg" fixed="top" className="w-100" style={{ marginTop: "75.5px" }}>
         <Nav className="w-100 justify-content-between">
           <Nav.Link as={Link} to="/homeClient" className="mx-3">Perfil</Nav.Link>
           <Nav.Link as={Link} to="/clientSearch" className="mx-3">Buscar</Nav.Link>
@@ -36,7 +59,6 @@ const HomeClient = () => {
         </Nav>
       </Navbar>
 
-      {/* Perfil */}
       <h1>Perfil</h1>
       <Row className="perfil-row">
         <Col md={6}>
@@ -60,9 +82,7 @@ const HomeClient = () => {
         <Col md={6}>
           <Form>
             <Form.Group as={Row} className="mb-3">
-              <Form.Label column sm="4">
-                Username:
-              </Form.Label>
+              <Form.Label column sm="4">Username:</Form.Label>
               <Col sm="8">
                 <Form.Control
                   type="text"
@@ -74,9 +94,7 @@ const HomeClient = () => {
             </Form.Group>
 
             <Form.Group as={Row} className="mb-3">
-              <Form.Label column sm="4">
-                Nombre:
-              </Form.Label>
+              <Form.Label column sm="4">Nombre:</Form.Label>
               <Col sm="8">
                 <Form.Control
                   type="text"
@@ -88,23 +106,19 @@ const HomeClient = () => {
             </Form.Group>
 
             <Form.Group as={Row} className="mb-3">
-              <Form.Label column sm="4">
-                Ubicación:
-              </Form.Label>
+              <Form.Label column sm="4">Contraseña:</Form.Label>  {/* Cambié de 'Ubicación' a 'Contraseña' */}
               <Col sm="8">
                 <Form.Control
-                  type="text"
-                  value={ubicacion}
+                  type="password"  
+                  value={password}
                   readOnly={!editMode}
-                  onChange={(e) => setUbicacion(e.target.value)}
+                  onChange={(e) => setPassword(e.target.value)}  
                 />
               </Col>
             </Form.Group>
 
             <Form.Group as={Row} className="mb-3">
-              <Form.Label column sm="4">
-                Email:
-              </Form.Label>
+              <Form.Label column sm="4">Email:</Form.Label>
               <Col sm="8">
                 <Form.Control
                   type="email"
@@ -117,13 +131,9 @@ const HomeClient = () => {
 
             <div className="text-right">
               {editMode ? (
-                <Button variant="primary" onClick={handleSave}>
-                  Guardar Cambios
-                </Button>
+                <Button variant="primary" onClick={handleSave}>Guardar Cambios</Button>
               ) : (
-                <Button variant="secondary" onClick={toggleEditMode}>
-                  Editar Perfil
-                </Button>
+                <Button variant="secondary" onClick={toggleEditMode}>Editar Perfil</Button>
               )}
             </div>
           </Form>

@@ -65,6 +65,31 @@ const AuthenticationContextProvider = ({ children }) => {
     };
 
 
+    // Método para obtener el cliente por ID
+const getCustomerById = async (customerId) => {
+    const token = getToken();
+    try {
+        const response = await fetch(`${URL}customer/${customerId}`, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json",
+                "Accept": "*/*"
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error("Error al obtener los datos del cliente");
+        }
+
+        const data = await response.json();
+        return data; // Devolvemos los datos del cliente
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};
+
     // Metodo para logueo, con authentification //
     const LoginUser = async (userRequest) => {
         try {                                   // path de authentification de swagger //
@@ -91,7 +116,7 @@ const AuthenticationContextProvider = ({ children }) => {
     };
 
     // Le paso a data por props, todos los metodos para retornarlos como valores en el componente AuthenticationContextProvider //
-    const data = { CreateCustomer, LoginUser, user, CreateProfessional };
+    const data = { CreateCustomer, LoginUser, user, CreateProfessional, getCustomerById };
     return (<AuthenticationContext.Provider value={data}>
         {children}
     </AuthenticationContext.Provider>
