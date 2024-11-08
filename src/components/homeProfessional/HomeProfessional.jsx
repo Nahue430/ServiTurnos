@@ -16,7 +16,7 @@ const HomeProfessional = () => {
   const [profession, setProfession] = useState('');
   const [editMode, setEditMode] = useState(false);
 
-  const { user, getProfessionalById } = useContext(AuthenticationContext);
+  const { user, getProfessionalById, updateProfessional } = useContext(AuthenticationContext);
 
   useEffect(() => {
     const fetchProfessional = async () => {
@@ -30,16 +30,16 @@ const HomeProfessional = () => {
           setFirstName(professionalData.firstName);
           setLastName(professionalData.lastName);
           setEmail(professionalData.email);
-          setTarifa(professionalData.fee);
+          setTarifa(professionalData.fee?.toString() || '');  // Convertir a string para el input
           setDni(professionalData.dni);
           setPassword(professionalData.password);
 
           const professionMapping = [
-            'Gasista', 
-            'Electricista', 
-            'Plomero', 
-            'Carpintero', 
-            'Albañil', 
+            'Gasista',
+            'Electricista',
+            'Plomero',
+            'Carpintero',
+            'Albañil',
             'Refrigeracion'
           ];
 
@@ -65,14 +65,36 @@ const HomeProfessional = () => {
     setEditMode(!editMode);
   };
 
-  const handleSave = () => {
-    setEditMode(false);
-    // Aquí podrías enviar los datos actualizados a tu backend o guardarlos en localStorage
+  const handleSave = async () => {
+    const decodedToken = JSON.parse(atob(user.split('.')[1]));
+    const professionalId = decodedToken.Id;
+
+    // Estructura de datos para actualizar el profesional sin modificar la profesión
+    const updatedProfessionalData = {
+      userName: username,
+      password: password,
+      firstName: firstName,
+      lastName: lastName,
+      dni: parseInt(dni, 10),
+      email: email,
+      fee: parseInt(tarifa, 10)  // Convertir a número entero
+    };
+
+    console.log("Datos actualizados enviados:", updatedProfessionalData);
+
+    const response = await updateProfessional(professionalId, updatedProfessionalData);
+
+    if (response) {
+      setEditMode(false); // Desactiva el modo de edición
+      console.log("Datos del profesional actualizados correctamente");
+    } else {
+      console.error("Error al actualizar los datos del profesional");
+    }
   };
 
   return (
     <div className="perfil-container">
-      <Navbar bg="dark" variant="dark" expand="lg" fixed="top" className="w-100" style={{marginTop:"75.5px"}}>
+      <Navbar bg="dark" variant="dark" expand="lg" fixed="top" className="w-100" style={{ marginTop: "75.5px" }}>
         <Nav className="w-100 justify-content-between">
           <Nav.Link as={Link} to="/homeProfessional" className="mx-3">Perfil</Nav.Link>
           <Nav.Link as={Link} to="/reservas" className="mx-3">Reservas</Nav.Link>
@@ -192,8 +214,7 @@ const HomeProfessional = () => {
                 <Form.Control
                   type="text"
                   value={profession}
-                  readOnly={!editMode}
-                  onChange={(e) => setProfession(e.target.value)}
+                  disabled
                 />
               </Col>
             </Form.Group>

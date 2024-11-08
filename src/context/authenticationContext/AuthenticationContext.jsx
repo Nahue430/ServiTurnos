@@ -130,11 +130,11 @@ const AuthenticationContextProvider = ({ children }) => {
                     "Accept": "*/*",
                 },
             });
-    
+
             if (!response.ok) {
                 throw new Error("Error al obtener los datos del profesional");
             }
-    
+
             const data = await response.json();
             console.log("Datos del profesional desde la API: ", data);  // Verifica lo que se devuelve
             return data;
@@ -143,45 +143,74 @@ const AuthenticationContextProvider = ({ children }) => {
             return null;
         }
     };
-    
- // LoginUser (revisión)
-const LoginUser = async (userRequest) => {
-    try {
-        const response = await fetch(URL + "Authentication/authenticate", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                accept: '*/*',
-            },
-            body: JSON.stringify(userRequest),
-        });
 
-        if (!response.ok) {
-            throw new Error("Error al autenticar usuario");
+    // Método para actualizar los datos del profesional
+    const updateProfessional = async (professionalId, professionalUpdateRequest) => {
+        const token = localStorage.getItem('token'); // Obtener el token desde el localStorage o desde otra función
+        const URL = 'https://localhost:7212/api/'; // Base URL de la API
+
+        try {
+            const response = await fetch(`${URL}professional/${professionalId}`, {
+                method: "PUT",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                    "Accept": "*/*"
+                },
+                body: JSON.stringify(professionalUpdateRequest),
+            });
+
+            if (!response.ok) {
+                throw new Error("Error al actualizar los datos del profesional");
+            }
+
+            const data = await response.json();
+            return data; // Devolvemos los datos actualizados del profesional
+        } catch (error) {
+            console.error(error);
+            return null;
         }
-        
-        const token = await response.text();
-        localStorage.setItem("token", token);
-        setUser(token); // Establece el token en el estado
-
-        const decodedToken = decodeJWT(token);  // Decodificar el JWT para obtener el tipo de usuario
-        return decodedToken;
-        
-    } catch (error) {
-        console.log(error);
-        return null;
-    }
-};
+    };
 
 
-// Función para decodificar el JWT (se asume que tienes la librería jwt-decode)
-const decodeJWT = (token) => {
-    const payload = token.split('.')[1];
-    const decoded = JSON.parse(atob(payload));
-    return decoded;
-};
+    // LoginUser (revisión)
+    const LoginUser = async (userRequest) => {
+        try {
+            const response = await fetch(URL + "Authentication/authenticate", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    accept: '*/*',
+                },
+                body: JSON.stringify(userRequest),
+            });
+
+            if (!response.ok) {
+                throw new Error("Error al autenticar usuario");
+            }
+
+            const token = await response.text();
+            localStorage.setItem("token", token);
+            setUser(token); // Establece el token en el estado
+
+            const decodedToken = decodeJWT(token);  // Decodificar el JWT para obtener el tipo de usuario
+            return decodedToken;
+
+        } catch (error) {
+            console.log(error);
+            return null;
+        }
+    };
+
+
+    // Función para decodificar el JWT (se asume que tienes la librería jwt-decode)
+    const decodeJWT = (token) => {
+        const payload = token.split('.')[1];
+        const decoded = JSON.parse(atob(payload));
+        return decoded;
+    };
     // Le paso a data por props, todos los metodos para retornarlos como valores en el componente AuthenticationContextProvider //
-    const data = { CreateCustomer, LoginUser, user, CreateProfessional, getCustomerById, updateCustomer, getProfessionalById };
+    const data = { CreateCustomer, LoginUser, user, CreateProfessional, getCustomerById, updateCustomer, getProfessionalById, updateProfessional };
     return (<AuthenticationContext.Provider value={data}>
         {children}
     </AuthenticationContext.Provider>

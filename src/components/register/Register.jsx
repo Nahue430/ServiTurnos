@@ -38,6 +38,11 @@ const Register = () => {
       return;
     }
 
+    if (dni.length < 6 || dni.length > 9) {
+      setError('Ingrese un dni valido.');
+      return;
+    }
+
     if (/\s/.test(username)) {
       setError('El nombre de usuario no puede contener espacios.');
       return;
