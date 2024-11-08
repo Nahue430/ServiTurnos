@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Form, Button, Row, Col, Navbar, Nav } from 'react-bootstrap';
+import { Form, Button, Row, Col, Navbar, Nav, Modal } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { AuthenticationContext } from '../../context/authenticationContext/AuthenticationContext';
 import "./HomeProfessional.css";
 
 const HomeProfessional = () => {
+  
   const [username, setUsername] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -15,8 +16,9 @@ const HomeProfessional = () => {
   const [password, setPassword] = useState('');
   const [profession, setProfession] = useState('');
   const [editMode, setEditMode] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  const { user, getProfessionalById, updateProfessional } = useContext(AuthenticationContext);
+  const { user, getProfessionalById, updateProfessional, deleteProfessional } = useContext(AuthenticationContext);
 
   useEffect(() => {
     const fetchProfessional = async () => {
@@ -89,6 +91,18 @@ const HomeProfessional = () => {
       console.log("Datos del profesional actualizados correctamente");
     } else {
       console.error("Error al actualizar los datos del profesional");
+    }
+  };
+
+  const handleDelete = async () => {
+    const decodedToken = JSON.parse(atob(user.split('.')[1]));
+    const professionalId = decodedToken.Id;
+
+    const response = await deleteProfessional(professionalId);
+
+    if (response) {
+      // Redirigir o cerrar sesión tras eliminar la cuenta
+      window.location.href = "/";
     }
   };
 
@@ -221,18 +235,25 @@ const HomeProfessional = () => {
 
             <div className="text-right">
               {editMode ? (
-                <Button variant="primary" onClick={handleSave}>
-                  Guardar Cambios
-                </Button>
+                <Button variant="primary" onClick={handleSave} className="mr-2">Guardar Cambios</Button>
               ) : (
-                <Button variant="secondary" onClick={toggleEditMode}>
-                  Editar Perfil
-                </Button>
+                <Button variant="secondary" onClick={toggleEditMode} className="mr-2">Editar Perfil</Button>
               )}
+              <Button variant="danger" onClick={() => setShowDeleteModal(true)}>Eliminar Cuenta</Button>
             </div>
           </Form>
         </Col>
       </Row>
+      <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirmar Eliminación</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer.</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>Cancelar</Button>
+          <Button variant="danger" onClick={handleDelete}>Eliminar Cuenta</Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
