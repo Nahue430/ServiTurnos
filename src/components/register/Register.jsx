@@ -17,7 +17,12 @@ const Register = () => {
   const [email, setEmail] = useState('');
   const [userType, setUserType] = useState('cliente');
   const [error, setError] = useState('');
+  const [tarifaBase, setTarifaBase] = useState('');
+  const [rubro, setRubro] = useState('');
+  // const [matricula, setMatricula] = useState('');
+
   const navigate = useNavigate();
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -71,6 +76,8 @@ const Register = () => {
         lastName,
         dni,
         email,
+        fee: Number(tarifaBase),
+        profession: rubro,
       };
 
 
@@ -184,6 +191,36 @@ const Register = () => {
             </select>
           </label>
         </div>
+
+        {userType === 'profesional' && (
+          <>
+            <div>
+              <label>Selecciona tu rubro:
+                <select value={rubro} onChange={(e) => setRubro(Number(e.target.value))} required>
+                  <option value="" disabled>Seleccione...</option>
+                  <option value="1">Gasista</option>
+                  <option value="2">Electricista</option>
+                  <option value="3">Plomero</option>
+                  <option value="4">Carpintero</option>
+                  <option value="5">Albañil</option>
+                  <option value="6">Refrigeracion</option>
+                </select>
+              </label>
+            </div>
+
+            {/* <div>
+              <label>Ingrese su matrícula:
+                <input type="text" value={matricula} onChange={(e) => setMatricula(e.target.value)} required />
+              </label>
+            </div> */}
+
+            <div>
+              <label>Ingrese su tarifa base:
+                <input type="number" value={tarifaBase} onChange={(e) => setTarifaBase(e.target.value)} max="99999" required />
+              </label>
+            </div>
+          </>
+        )}
 
         {error && <p style={{ color: 'red' }}>{error}</p>}
         <Row style={{ padding: '10px' }}>
