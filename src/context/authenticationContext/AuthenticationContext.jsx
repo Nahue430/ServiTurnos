@@ -90,6 +90,32 @@ const getCustomerById = async (customerId) => {
     }
 };
 
+// Método para actualizar los datos del cliente
+const updateCustomer = async (customerId, customerUpdateRequest) => {
+    const token = getToken();
+    try {
+        const response = await fetch(`${URL}customer/${customerId}`, {
+            method: "PUT",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json",
+                "Accept": "*/*"
+            },
+            body: JSON.stringify(customerUpdateRequest),
+        });
+
+        if (!response.ok) {
+            throw new Error("Error al actualizar los datos del cliente");
+        }
+
+        const data = await response.json();
+        return data; // Devolvemos los datos actualizados del cliente
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};
+
     // Metodo para logueo, con authentification //
     const LoginUser = async (userRequest) => {
         try {                                   // path de authentification de swagger //
@@ -116,7 +142,7 @@ const getCustomerById = async (customerId) => {
     };
 
     // Le paso a data por props, todos los metodos para retornarlos como valores en el componente AuthenticationContextProvider //
-    const data = { CreateCustomer, LoginUser, user, CreateProfessional, getCustomerById };
+    const data = { CreateCustomer, LoginUser, user, CreateProfessional, getCustomerById, updateCustomer };
     return (<AuthenticationContext.Provider value={data}>
         {children}
     </AuthenticationContext.Provider>
