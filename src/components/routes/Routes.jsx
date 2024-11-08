@@ -9,7 +9,6 @@ import HomeProfessional from '../homeProfessional/HomeProfessional';
 import ClientSearch from '../clientSearch/ClientSearch';
 import ManagementUsers from '../managementUsers/ManagementUsers'; // Ruta corregida
 import React from 'react';
-import UserProtected from './UserProtected';
 import AdminProtected from './AdminProtected';
 import CustomerProtected from './CustomerProtected';
 import ProfessionalProtected from './ProfessionalProtected';

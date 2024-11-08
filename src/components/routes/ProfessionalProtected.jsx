@@ -13,6 +13,7 @@ const ProfessionalProtected = ({children}) => {
     const TypeCustomer = getClaimsFromToken(user).TypeCustomer;
     
     if(TypeCustomer !== 'Professional'){
+        localStorage.removeItem("token"); // Elimina el token del almacenamiento local
         return <Navigate to="/" />
     }
     return <div>{children}</div> // Ejemplo
