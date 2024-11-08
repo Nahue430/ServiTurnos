@@ -1,18 +1,61 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Form, Button, Row, Col, Navbar, Nav } from 'react-bootstrap';
-import { Link } from 'react-router-dom';  // Importa Link de react-router-dom
-import "./HomeProfessional.css"
+import { Link } from 'react-router-dom';
+import { AuthenticationContext } from '../../context/authenticationContext/AuthenticationContext';
+import "./HomeProfessional.css";
 
 const HomeProfessional = () => {
   const [username, setUsername] = useState('');
-  const [nombre, setNombre] = useState('');
-  const [ubicacion, setUbicacion] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
-  const [rubro, setRubro] = useState('');
-  const [horarios, setHorarios] = useState('');
   const [tarifa, setTarifa] = useState('');
   const [foto, setFoto] = useState(null);
+  const [dni, setDni] = useState('');
+  const [password, setPassword] = useState('');
+  const [profession, setProfession] = useState('');
   const [editMode, setEditMode] = useState(false);
+
+  const { user, getProfessionalById, updateProfessional } = useContext(AuthenticationContext);
+
+  useEffect(() => {
+    const fetchProfessional = async () => {
+      if (user) {
+        const decodedToken = JSON.parse(atob(user.split('.')[1]));
+        const professionalId = decodedToken.Id;
+
+        const professionalData = await getProfessionalById(professionalId);
+        if (professionalData) {
+          setUsername(professionalData.userName);
+          setFirstName(professionalData.firstName);
+          setLastName(professionalData.lastName);
+          setEmail(professionalData.email);
+          setTarifa(professionalData.fee?.toString() || '');  // Convertir a string para el input
+          setDni(professionalData.dni);
+          setPassword(professionalData.password);
+
+          const professionMapping = [
+            'Gasista',
+            'Electricista',
+            'Plomero',
+            'Carpintero',
+            'Albañil',
+            'Refrigeracion'
+          ];
+
+          let professionValue = professionalData.profession;
+          if (typeof professionValue === "number" && professionValue >= 0 && professionValue < professionMapping.length) {
+            setProfession(professionMapping[professionValue]);
+          } else {
+            console.error('Valor de profesión inválido:', professionValue);
+            setProfession('Desconocida');
+          }
+        }
+      }
+    };
+
+    fetchProfessional();
+  }, [user, getProfessionalById]);
 
   const handleFotoChange = (e) => {
     setFoto(URL.createObjectURL(e.target.files[0]));
@@ -22,17 +65,38 @@ const HomeProfessional = () => {
     setEditMode(!editMode);
   };
 
-  const handleSave = () => {
-    setEditMode(false);
-    // Aquí podrías enviar los datos actualizados a tu backend o guardarlos en localStorage
+  const handleSave = async () => {
+    const decodedToken = JSON.parse(atob(user.split('.')[1]));
+    const professionalId = decodedToken.Id;
+
+    // Estructura de datos para actualizar el profesional sin modificar la profesión
+    const updatedProfessionalData = {
+      userName: username,
+      password: password,
+      firstName: firstName,
+      lastName: lastName,
+      dni: parseInt(dni, 10),
+      email: email,
+      fee: parseInt(tarifa, 10)  // Convertir a número entero
+    };
+
+    console.log("Datos actualizados enviados:", updatedProfessionalData);
+
+    const response = await updateProfessional(professionalId, updatedProfessionalData);
+
+    if (response) {
+      setEditMode(false); // Desactiva el modo de edición
+      console.log("Datos del profesional actualizados correctamente");
+    } else {
+      console.error("Error al actualizar los datos del profesional");
+    }
   };
 
   return (
     <div className="perfil-container">
-      <Navbar bg="dark" variant="dark" expand="lg" fixed="top" className="w-100" style={{marginTop:"75.5px"}}>
+      <Navbar bg="dark" variant="dark" expand="lg" fixed="top" className="w-100" style={{ marginTop: "75.5px" }}>
         <Nav className="w-100 justify-content-between">
           <Nav.Link as={Link} to="/homeProfessional" className="mx-3">Perfil</Nav.Link>
-          <Nav.Link as={Link} to="/solicitudes" className="mx-3">Solicitudes</Nav.Link>
           <Nav.Link as={Link} to="/reservas" className="mx-3">Reservas</Nav.Link>
           <Nav.Link as={Link} to="/" className="mx-3">Salir</Nav.Link>
         </Nav>
@@ -41,7 +105,7 @@ const HomeProfessional = () => {
       <h1>Perfil</h1>
       <Row className="perfil-row">
         <Col md={4}>
-        <div className="foto-container">
+          <div className="foto-container">
             {foto ? (
               <img src={foto} alt="Foto de perfil" className="foto-perfil" />
             ) : (
@@ -61,9 +125,7 @@ const HomeProfessional = () => {
         <Col md={8}>
           <Form>
             <Form.Group as={Row} className="mb-3">
-              <Form.Label column sm="4">
-                Username:
-              </Form.Label>
+              <Form.Label column sm="4">Username:</Form.Label>
               <Col sm="8">
                 <Form.Control
                   type="text"
@@ -75,37 +137,31 @@ const HomeProfessional = () => {
             </Form.Group>
 
             <Form.Group as={Row} className="mb-3">
-              <Form.Label column sm="4">
-                Nombre:
-              </Form.Label>
+              <Form.Label column sm="4">Nombre:</Form.Label>
               <Col sm="8">
                 <Form.Control
                   type="text"
-                  value={nombre}
+                  value={firstName}
                   readOnly={!editMode}
-                  onChange={(e) => setNombre(e.target.value)}
+                  onChange={(e) => setFirstName(e.target.value)}
                 />
               </Col>
             </Form.Group>
 
             <Form.Group as={Row} className="mb-3">
-              <Form.Label column sm="4">
-                Ubicación:
-              </Form.Label>
+              <Form.Label column sm="4">Apellido:</Form.Label>
               <Col sm="8">
                 <Form.Control
                   type="text"
-                  value={ubicacion}
+                  value={lastName}
                   readOnly={!editMode}
-                  onChange={(e) => setUbicacion(e.target.value)}
+                  onChange={(e) => setLastName(e.target.value)}
                 />
               </Col>
             </Form.Group>
 
             <Form.Group as={Row} className="mb-3">
-              <Form.Label column sm="4">
-                Email:
-              </Form.Label>
+              <Form.Label column sm="4">Email:</Form.Label>
               <Col sm="8">
                 <Form.Control
                   type="email"
@@ -117,22 +173,7 @@ const HomeProfessional = () => {
             </Form.Group>
 
             <Form.Group as={Row} className="mb-3">
-              <Form.Label column sm="4">
-                Rubro:
-              </Form.Label>
-              <Col sm="8">
-                <Form.Control
-                  type="text"
-                  value={rubro}
-                  readOnly={!editMode}
-                  onChange={(e) => setRubro(e.target.value)}
-                />
-              </Col>
-            </Form.Group>
-            <Form.Group as={Row} className="mb-3">
-              <Form.Label column sm="4">
-                Tarifa:
-              </Form.Label>
+              <Form.Label column sm="4">Tarifa:</Form.Label>
               <Col sm="8">
                 <Form.Control
                   type="text"
@@ -144,15 +185,36 @@ const HomeProfessional = () => {
             </Form.Group>
 
             <Form.Group as={Row} className="mb-3">
-              <Form.Label column sm="4">
-                Horarios:
-              </Form.Label>
+              <Form.Label column sm="4">DNI:</Form.Label>
               <Col sm="8">
                 <Form.Control
                   type="text"
-                  value={horarios}
+                  value={dni}
                   readOnly={!editMode}
-                  onChange={(e) => setHorarios(e.target.value)}
+                  onChange={(e) => setDni(e.target.value)}
+                />
+              </Col>
+            </Form.Group>
+
+            <Form.Group as={Row} className="mb-3">
+              <Form.Label column sm="4">Contraseña:</Form.Label>
+              <Col sm="8">
+                <Form.Control
+                  type="password"
+                  value={password}
+                  readOnly={!editMode}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </Col>
+            </Form.Group>
+
+            <Form.Group as={Row} className="mb-3">
+              <Form.Label column sm="4">Profesión:</Form.Label>
+              <Col sm="8">
+                <Form.Control
+                  type="text"
+                  value={profession}
+                  disabled
                 />
               </Col>
             </Form.Group>

@@ -1,15 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Form, Button, Row, Col, Navbar, Nav } from "react-bootstrap";
-import { Link } from "react-router-dom"; // Importamos Link para navegación
-import "./HomeClient.css";
+import { Link } from "react-router-dom";
+import { AuthenticationContext } from '../../context/authenticationContext/AuthenticationContext';
 
 const HomeClient = () => {
+  const { getCustomerById, user, updateCustomer } = useContext(AuthenticationContext);
   const [username, setUsername] = useState("");
-  const [nombre, setNombre] = useState("");
-  const [ubicacion, setUbicacion] = useState("");
+  const [firstName, setFirstName] = useState("");  // Ahora separo primero el nombre
+  const [lastName, setLastName] = useState("");    // Aquí para el apellido
+  const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [foto, setFoto] = useState(null);
   const [editMode, setEditMode] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      const decodedToken = JSON.parse(atob(user.split('.')[1])); // Decodificamos el token JWT
+      const customerId = decodedToken.Id;
+
+      const fetchCustomerData = async () => {
+        const customerData = await getCustomerById(customerId);
+        if (customerData) {
+          setUsername(customerData.userName);
+          setFirstName(customerData.firstName);  // Asigno el primer nombre
+          setLastName(customerData.lastName);    // Asigno el apellido
+          setEmail(customerData.email);
+          setPassword(customerData.password || "");
+        }
+      };
+
+      fetchCustomerData();
+    }
+  }, [user, getCustomerById]);
 
   const handleFotoChange = (e) => {
     setFoto(URL.createObjectURL(e.target.files[0]));
@@ -19,15 +41,29 @@ const HomeClient = () => {
     setEditMode(!editMode);
   };
 
-  const handleSave = () => {
-    setEditMode(false);
-    // Aquí podrías enviar los datos actualizados a tu backend o guardarlos en localStorage
+  const handleSave = async () => {
+    const decodedToken = JSON.parse(atob(user.split('.')[1])); // Decodificamos el token JWT
+    const customerId = decodedToken.Id;
+
+    const updatedCustomerData = {
+      userName: username,
+      password: password,
+      firstName: firstName,  // Utilizo el estado de firstName
+      lastName: lastName,    // Utilizo el estado de lastName
+      email: email,
+      // No agregamos la foto de perfil aquí, ya que no está en la API. Podrías hacer un PUT adicional si es necesario.
+    };
+
+    const response = await updateCustomer(customerId, updatedCustomerData);
+
+    if (response) {
+      setEditMode(false); // Desactivar el modo de edición
+    }
   };
 
   return (
     <div className="perfil-container">
-      
-      <Navbar bg="dark" variant="dark" expand="lg" fixed="top" className="w-100" style={{marginTop:"75.5px"}}>
+      <Navbar bg="dark" variant="dark" expand="lg" fixed="top" className="w-100" style={{ marginTop: "75.5px" }}>
         <Nav className="w-100 justify-content-between">
           <Nav.Link as={Link} to="/homeClient" className="mx-3">Perfil</Nav.Link>
           <Nav.Link as={Link} to="/clientSearch" className="mx-3">Buscar</Nav.Link>
@@ -36,7 +72,6 @@ const HomeClient = () => {
         </Nav>
       </Navbar>
 
-      {/* Perfil */}
       <h1>Perfil</h1>
       <Row className="perfil-row">
         <Col md={6}>
@@ -60,9 +95,7 @@ const HomeClient = () => {
         <Col md={6}>
           <Form>
             <Form.Group as={Row} className="mb-3">
-              <Form.Label column sm="4">
-                Username:
-              </Form.Label>
+              <Form.Label column sm="4">Username:</Form.Label>
               <Col sm="8">
                 <Form.Control
                   type="text"
@@ -74,37 +107,43 @@ const HomeClient = () => {
             </Form.Group>
 
             <Form.Group as={Row} className="mb-3">
-              <Form.Label column sm="4">
-                Nombre:
-              </Form.Label>
+              <Form.Label column sm="4">Nombre:</Form.Label>
               <Col sm="8">
                 <Form.Control
                   type="text"
-                  value={nombre}
+                  value={firstName}
                   readOnly={!editMode}
-                  onChange={(e) => setNombre(e.target.value)}
+                  onChange={(e) => setFirstName(e.target.value)}
                 />
               </Col>
             </Form.Group>
 
             <Form.Group as={Row} className="mb-3">
-              <Form.Label column sm="4">
-                Ubicación:
-              </Form.Label>
+              <Form.Label column sm="4">Apellido:</Form.Label>
               <Col sm="8">
                 <Form.Control
                   type="text"
-                  value={ubicacion}
+                  value={lastName}
                   readOnly={!editMode}
-                  onChange={(e) => setUbicacion(e.target.value)}
+                  onChange={(e) => setLastName(e.target.value)}
                 />
               </Col>
             </Form.Group>
 
             <Form.Group as={Row} className="mb-3">
-              <Form.Label column sm="4">
-                Email:
-              </Form.Label>
+              <Form.Label column sm="4">Contraseña:</Form.Label>
+              <Col sm="8">
+                <Form.Control
+                  type="password"
+                  value={password}
+                  readOnly={!editMode}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </Col>
+            </Form.Group>
+
+            <Form.Group as={Row} className="mb-3">
+              <Form.Label column sm="4">Email:</Form.Label>
               <Col sm="8">
                 <Form.Control
                   type="email"
@@ -117,13 +156,9 @@ const HomeClient = () => {
 
             <div className="text-right">
               {editMode ? (
-                <Button variant="primary" onClick={handleSave}>
-                  Guardar Cambios
-                </Button>
+                <Button variant="primary" onClick={handleSave}>Guardar Cambios</Button>
               ) : (
-                <Button variant="secondary" onClick={toggleEditMode}>
-                  Editar Perfil
-                </Button>
+                <Button variant="secondary" onClick={toggleEditMode}>Editar Perfil</Button>
               )}
             </div>
           </Form>

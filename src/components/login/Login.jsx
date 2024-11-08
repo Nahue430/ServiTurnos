@@ -5,7 +5,6 @@ import { AuthenticationContext } from '../../context/authenticationContext/Authe
 
 const Login = () => {
     const navigate = useNavigate();
-
     const { LoginUser } = useContext(AuthenticationContext);
     const [user, setUser] = useState('');
     const [password, setPassword] = useState('');
@@ -22,26 +21,29 @@ const Login = () => {
     // Se le agrega async
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
+
         if (!user || !password) {
             setError('Por favor, ingrese su usuario y contraseña.');
             return;
         }
-    
+
         // Define el objeto userRequest dentro de este bloque
         const userRequest = {
             username: user,
             password: password,
         };
-    
+
         try {
             // Llama a LoginUser y guarda la respuesta en response
-            const response = await LoginUser(userRequest);
+            const decodedToken = await LoginUser(userRequest);
             
-            // Si la respuesta es válida, navega a homeClient
-            if (response !== null) { // Falta validacion de tipo cliente && userType == "cliente"
-                navigate("/homeClient", { replace: true });
-                
+            if (decodedToken !== null) {
+                // Redirige dependiendo del tipo de usuario
+                if (decodedToken.TypeCustomer === "Customer") {
+                    navigate("/homeClient", { replace: true });
+                } else if (decodedToken.TypeCustomer === "Professional") {
+                    navigate("/homeProfessional", { replace: true });
+                }
             } else {
                 setError("Error en el inicio de sesión. Por favor, revise sus credenciales.");
             }
@@ -50,7 +52,6 @@ const Login = () => {
             setError("Ocurrió un error al intentar iniciar sesión. Intente nuevamente.");
         }
     };
-    
 
     return (
         <>
@@ -75,7 +76,6 @@ const Login = () => {
                     />
                 </Form.Group>
 
-
                 {error && <Alert variant="danger">{error}</Alert>}
                 <Row style={{ padding: '10px' }}>
                     <Col>
@@ -86,7 +86,6 @@ const Login = () => {
                     </Col>
                 </Row>
                 <div className="mt-3">
-
                     <span
                         style={{ color: 'blue', cursor: 'pointer', textDecoration: 'underline' }}
                         onClick={handleForgotPassword}
