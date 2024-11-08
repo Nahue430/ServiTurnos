@@ -11,11 +11,9 @@ const ProfessionalProtected = ({children}) => {
         return <Navigate to="/login" />
     }
     const TypeCustomer = getClaimsFromToken(user).TypeCustomer;
-    if (TypeCustomer === 'Professional') {
-        // Redirige a homeclient si es de tipo Customer
-        return <Navigate to="/homeProfessional" />; 
-    }else if(TypeCustomer !== 'Professional'){
-        return <Navigate to="/login" />
+    
+    if(TypeCustomer !== 'Professional'){
+        return <Navigate to="/" />
     }
     return <div>{children}</div> // Ejemplo
 };

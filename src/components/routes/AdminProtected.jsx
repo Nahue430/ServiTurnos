@@ -11,10 +11,8 @@ const AdminProtected = ({children}) => {
         return <Navigate to="/login" />
     }
     const TypeCustomer = getClaimsFromToken(user).TypeCustomer;
-    if (TypeCustomer === 'SuperAdmin') {
-        return <Navigate to="/admin" />;
-    } else if (TypeCustomer !== 'SuperAdmin') {
-        return <Navigate to="/login" />
+    if(TypeCustomer !== 'SuperAdmin'){
+        return <Navigate to="/" />
     }
     return <div>{children}</div> // Ejemplo
 };
