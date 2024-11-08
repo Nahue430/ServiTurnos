@@ -202,6 +202,29 @@ const AuthenticationContextProvider = ({ children }) => {
         }
     };
 
+    // Método para eliminar un cliente por ID
+const deleteCustomer = async (customerId) => {
+    const token = getToken(); // Recupera el token del usuario autenticado
+    try {
+        const response = await fetch(`${URL}customer/${customerId}`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": `Bearer ${token}`, // Añadir token de autorización
+                "Accept": "text/plain" // Acepta texto plano como indica la documentación de la API
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error("Error al eliminar el cliente");
+        }
+
+        return true; // Devuelve `true` si la eliminación fue exitosa
+    } catch (error) {
+        console.error(error);
+        return false; // Devuelve `false` en caso de error
+    }
+};
+
 
     // Función para decodificar el JWT (se asume que tienes la librería jwt-decode)
     const decodeJWT = (token) => {
@@ -210,7 +233,7 @@ const AuthenticationContextProvider = ({ children }) => {
         return decoded;
     };
     // Le paso a data por props, todos los metodos para retornarlos como valores en el componente AuthenticationContextProvider //
-    const data = { CreateCustomer, LoginUser, user, CreateProfessional, getCustomerById, updateCustomer, getProfessionalById, updateProfessional };
+    const data = { CreateCustomer, LoginUser, user, CreateProfessional, getCustomerById, updateCustomer, getProfessionalById, updateProfessional, deleteCustomer };
     return (<AuthenticationContext.Provider value={data}>
         {children}
     </AuthenticationContext.Provider>

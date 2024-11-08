@@ -1,29 +1,30 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Form, Button, Row, Col, Navbar, Nav } from "react-bootstrap";
+import { Form, Button, Row, Col, Navbar, Nav, Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { AuthenticationContext } from '../../context/authenticationContext/AuthenticationContext';
 
 const HomeClient = () => {
-  const { getCustomerById, user, updateCustomer } = useContext(AuthenticationContext);
+  const { getCustomerById, user, updateCustomer, deleteCustomer } = useContext(AuthenticationContext);
   const [username, setUsername] = useState("");
-  const [firstName, setFirstName] = useState("");  // Ahora separo primero el nombre
-  const [lastName, setLastName] = useState("");    // Aquí para el apellido
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [foto, setFoto] = useState(null);
   const [editMode, setEditMode] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   useEffect(() => {
     if (user) {
-      const decodedToken = JSON.parse(atob(user.split('.')[1])); // Decodificamos el token JWT
+      const decodedToken = JSON.parse(atob(user.split('.')[1]));
       const customerId = decodedToken.Id;
 
       const fetchCustomerData = async () => {
         const customerData = await getCustomerById(customerId);
         if (customerData) {
           setUsername(customerData.userName);
-          setFirstName(customerData.firstName);  // Asigno el primer nombre
-          setLastName(customerData.lastName);    // Asigno el apellido
+          setFirstName(customerData.firstName);
+          setLastName(customerData.lastName);
           setEmail(customerData.email);
           setPassword(customerData.password || "");
         }
@@ -42,22 +43,33 @@ const HomeClient = () => {
   };
 
   const handleSave = async () => {
-    const decodedToken = JSON.parse(atob(user.split('.')[1])); // Decodificamos el token JWT
+    const decodedToken = JSON.parse(atob(user.split('.')[1]));
     const customerId = decodedToken.Id;
 
     const updatedCustomerData = {
       userName: username,
       password: password,
-      firstName: firstName,  // Utilizo el estado de firstName
-      lastName: lastName,    // Utilizo el estado de lastName
+      firstName: firstName,
+      lastName: lastName,
       email: email,
-      // No agregamos la foto de perfil aquí, ya que no está en la API. Podrías hacer un PUT adicional si es necesario.
     };
 
     const response = await updateCustomer(customerId, updatedCustomerData);
 
     if (response) {
-      setEditMode(false); // Desactivar el modo de edición
+      setEditMode(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    const decodedToken = JSON.parse(atob(user.split('.')[1]));
+    const customerId = decodedToken.Id;
+
+    const response = await deleteCustomer(customerId);
+
+    if (response) {
+      // Redirigir o cerrar sesión tras eliminar la cuenta
+      window.location.href = "/";
     }
   };
 
@@ -156,14 +168,26 @@ const HomeClient = () => {
 
             <div className="text-right">
               {editMode ? (
-                <Button variant="primary" onClick={handleSave}>Guardar Cambios</Button>
+                <Button variant="primary" onClick={handleSave} className="mr-2">Guardar Cambios</Button>
               ) : (
-                <Button variant="secondary" onClick={toggleEditMode}>Editar Perfil</Button>
+                <Button variant="secondary" onClick={toggleEditMode} className="mr-2">Editar Perfil</Button>
               )}
+              <Button variant="danger" onClick={() => setShowDeleteModal(true)}>Eliminar Cuenta</Button>
             </div>
           </Form>
         </Col>
       </Row>
+
+      <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirmar Eliminación</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer.</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>Cancelar</Button>
+          <Button variant="danger" onClick={handleDelete}>Eliminar Cuenta</Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
