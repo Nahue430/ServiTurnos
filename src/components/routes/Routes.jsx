@@ -11,6 +11,8 @@ import ManagementUsers from '../managementUsers/ManagementUsers'; // Ruta correg
 import React from 'react';
 import UserProtected from './UserProtected';
 import AdminProtected from './AdminProtected';
+import CustomerProtected from './CustomerProtected';
+import ProfessionalProtected from './ProfessionalProtected';
 
 
 const RoutesComponent = () => {
@@ -20,20 +22,42 @@ const RoutesComponent = () => {
         <Route path="/" element={<WelcomePage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/registerPro" element={<RegisterPro />} />
+
+        <Route
+          path="/registerPro"
+          element={
+            <ProfessionalProtected>
+              <RegisterPro />
+            </ProfessionalProtected>
+          }
+        />
         <Route path="/reset-password" element={<ResetPassword />} />
 
         // Ruta Privada para HomeClient
         <Route
           path="/homeClient"
           element={
-            <UserProtected>
+            <CustomerProtected>
               <HomeClient />
-            </UserProtected>
+            </CustomerProtected>
           }
         />
-        <Route path="/homeProfessional" element={<HomeProfessional />} />
-        <Route path="/clientSearch" element={<ClientSearch />} />
+        <Route
+          path="/homeProfessional"
+          element={
+            <ProfessionalProtected>
+              <HomeProfessional />
+            </ProfessionalProtected>
+          }
+        />
+        <Route
+          path="/clientSearch"
+          element={
+            <CustomerProtected>
+              <ClientSearch />
+            </CustomerProtected>
+          }
+        />
 
         {/* Ruta Privada para Administrador */}
         <Route

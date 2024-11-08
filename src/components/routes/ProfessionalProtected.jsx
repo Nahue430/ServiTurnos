@@ -4,20 +4,21 @@ import getClaimsFromToken from '../helper/getClaims';
 import { Navigate } from 'react-router-dom';
 import { useContext } from 'react';
 
-const AdminProtected = ({children}) => {
+const ProfessionalProtected = ({children}) => {
     // Recuperamos el user del contexto
     const { user } = useContext(AuthenticationContext);
     if (user == null) {
         return <Navigate to="/login" />
     }
     const TypeCustomer = getClaimsFromToken(user).TypeCustomer;
-    if (TypeCustomer === 'SuperAdmin') {
-        return <Navigate to="/admin" />;
-    } else if (TypeCustomer !== 'SuperAdmin') {
+    if (TypeCustomer === 'Professional') {
+        // Redirige a homeclient si es de tipo Customer
+        return <Navigate to="/homeProfessional" />; 
+    }else if(TypeCustomer !== 'Professional'){
         return <Navigate to="/login" />
     }
     return <div>{children}</div> // Ejemplo
 };
 
 
-export default AdminProtected;
+export default ProfessionalProtected;
