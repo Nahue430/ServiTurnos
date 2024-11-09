@@ -1,5 +1,6 @@
 /* HomeAdmin.css */
 
+/* Estilos de las imágenes de perfil */
 .foto-perfil,
 .foto-generica {
   width: 12em; /* Tamaño uniforme */
@@ -32,3 +33,42 @@ input[type="file"] {
   border-radius: 0.5em; /* Bordes redondeados */
 }
 
+/* Estilos para centrar el mensaje y título en la página */
+.perfil-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Ocupa toda la altura de la pantalla */
+}
+
+.centered-message {
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  flex: 1; /* Ocupa todo el espacio disponible */
+  padding: 20px;
+  text-align: center; /* Centra el texto */
+}
+
+.message-content {
+  max-width: 800px; /* Opcional: límite en el tamaño del contenedor */
+}
+
+.message-content h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.message-content p {
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+}
+
+.message-content a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.message-content a:hover {
+  text-decoration: underline;
+}

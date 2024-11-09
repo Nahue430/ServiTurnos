@@ -1,12 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Form, Button, Row, Col, Navbar, Nav, Modal } from 'react-bootstrap';
+import React from 'react';
+import { Navbar, Nav } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { AuthenticationContext } from '../../context/authenticationContext/AuthenticationContext';
-import "./HomeAdmin.css";
+import './HomeAdmin.css';
 
 const HomeAdmin = () => {
 
-    
   return (
     <div className="perfil-container">
       <Navbar bg="dark" variant="dark" expand="lg" fixed="top" className="w-100" style={{ marginTop: "75.5px" }}>
@@ -17,7 +15,21 @@ const HomeAdmin = () => {
         </Nav>
       </Navbar>
 
-
+      {/* Contenedor con el mensaje centrado vertical y horizontal */}
+      <div className="centered-message">
+        <div className="message-content">
+          <h1>Bienvenido a la Sección Administrador</h1>
+          <p>
+            En esta sección, puedes gestionar a los clientes y profesionales de nuestra plataforma. 
+            Utiliza la barra de navegación para buscar profesionales o clientes, aplicar filtros según corresponda 
+            y eliminar usuarios que infrinjan las normas de la plataforma.
+          </p>
+          <p>
+            Si experimentas algún desperfecto en la página, por favor, comunícate con el soporte técnico 
+            a través de <a href="mailto:sistemas@serviturnos.com.ar">sistemas@serviturnos.com.ar</a>.
+          </p>
+        </div>
+      </div>
     </div>
   );
 };
