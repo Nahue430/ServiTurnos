@@ -41,7 +41,7 @@ const Login = () => {
             if (decodedToken !== null) {
                 // Redirige dependiendo del tipo de usuario
                 if (decodedToken.TypeCustomer === "Customer") {
-                    navigate("/homeClient", { replace: true });
+                    navigate("/clientSearch", { replace: true });
                 } else if (decodedToken.TypeCustomer === "Professional") {
                     navigate("/homeProfessional", { replace: true });
                 } else if (decodedToken.TypeCustomer === "SuperAdmin") {

@@ -1,27 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Form, Button, Row, Col, Navbar, Nav } from "react-bootstrap";
-import { Link } from "react-router-dom"; // Importamos Link para navegación
-
+import { Link } from "react-router-dom";
+import { AuthenticationContext } from '../../context/authenticationContext/AuthenticationContext';
+import "./ClientSearch.css";
 
 const ClientSearch = () => {
-  const [nombre, setNombre] = useState("");
-  const [ubicacion, setUbicacion] = useState("");
-  const [rubro, setRubro] = useState("");
-  const [horario, setHorario] = useState("");
+  const [professionals, setProfessionals] = useState([]);
+  const [showForm, setShowForm] = useState(true);
 
-  const handleSearch = () => {
-    // Aquí podrías manejar la lógica para realizar la búsqueda según los filtros seleccionados.
-    console.log("Buscando con los siguientes filtros:", {
-      nombre,
-      ubicacion,
-      rubro,
-      horario,
-    });
+  const { getProfessionalByProfession } = useContext(AuthenticationContext);
+
+  const fetchProfessionals = async (profession) => {
+    if (profession) {
+      const data = await getProfessionalByProfession(profession);
+      setProfessionals(data || []);
+      setShowForm(false);
+    } else {
+      setProfessionals([]);
+      setShowForm(true);
+    }
+  };
+
+  const handleResetSearch = () => {
+    setShowForm(true);
+    setProfessionals([]);
   };
 
   return (
     <div className="buscar-container">
-      <Navbar bg="dark" variant="dark" expand="lg" fixed="top" className="w-100" style={{marginTop:"75.5px"}}>
+      <Navbar bg="dark" variant="dark" expand="lg" fixed="top" className="w-100" style={{ marginTop: "75.5px" }}>
         <Nav className="w-100 justify-content-between">
           <Nav.Link as={Link} to="/homeClient" className="mx-3">Perfil</Nav.Link>
           <Nav.Link as={Link} to="/clientSearch" className="mx-3">Buscar</Nav.Link>
@@ -30,79 +37,58 @@ const ClientSearch = () => {
         </Nav>
       </Navbar>
 
-      <h1>Buscar</h1>
-      <Row className="buscar-row">
-        <Form>
-          <Form.Group as={Row} className="mb-3">
-            <Col lg="6">
-              <Form.Label column sm="4">Nombre:</Form.Label>
-            </Col>
-            <Col lg="6">
-              <Form.Control
-                type="text"
-                value={nombre}
-                onChange={(e) => setNombre(e.target.value)}
-              />
-            </Col>
-          </Form.Group>
+      {showForm && <h1>Seleccione el profesional que desea contratar:</h1>}
 
+      {showForm && (
+    
+          <Form>
+          <Form.Group as={Row} className="centered-form">
+          <Row className="buscar-row">
+              <Col lg="1">
+                <Form.Label column sm="4">Profesión:</Form.Label>
+              </Col>
+              <Col lg="6">
+                <Form.Control
+                  as="select"
+                  onChange={(e) => fetchProfessionals(e.target.value)}
+                >
+                  <option value="">Seleccionar</option>
+                  <option value="0">Gasista</option>
+                  <option value="1">Electricista</option>
+                  <option value="2">Plomero</option>
+                  <option value="3">Carpintero</option>
+                  <option value="4">Albañil</option>
+                  <option value="5">Refrigeración</option>
+                </Form.Control>
+              </Col>
+              </Row>
+            </Form.Group>
+          </Form>
+      
+      )}
 
-          <Form.Group as={Row} className="mb-3">
-            <Col lg="6">
-              <Form.Label column sm="4">Ubicación:</Form.Label>
-            </Col>
-            <Col lg="6">
-              <Form.Control
-                type="text"
-                value={ubicacion}
-                onChange={(e) => setUbicacion(e.target.value)}
-              />
-            </Col>
-          </Form.Group>
-
-          <Form.Group as={Row} className="mb-3">
-            <Col lg="6">
-              <Form.Label column sm="4">Rubro:</Form.Label>
-            </Col>
-            <Col lg="6">
-              <Form.Control
-                as="select"
-                value={rubro}
-                onChange={(e) => setRubro(e.target.value)}
-              >
-                <option value="">Seleccionar</option>
-                <option value="Rubro1">Rubro 1</option>
-                <option value="Rubro2">Rubro 2</option>
-                <option value="Rubro3">Rubro 3</option>
-              </Form.Control>
-            </Col>
-          </Form.Group>
-
-          <Form.Group as={Row} className="mb-3">
-            <Col lg="6">
-              <Form.Label column sm="4">Horario:</Form.Label>
-            </Col>
-            <Col lg="6">
-              <Form.Control
-                as="select"
-                value={horario}
-                onChange={(e) => setHorario(e.target.value)}
-              >
-                <option value="">Seleccionar</option>
-                <option value="Mañana">Mañana</option>
-                <option value="Tarde">Tarde</option>
-                <option value="Noche">Noche</option>
-              </Form.Control>
-            </Col>
-          </Form.Group>
-
-          <div className="text-center">
-            <Button variant="primary" onClick={handleSearch}>
-              Confirmar
+      {Array.isArray(professionals) && professionals.length > 0 && (
+        <div>
+          <h2>Profesionales Encontrados:</h2>
+          <div className="button-container text-center">
+            <Button variant="secondary" onClick={handleResetSearch}>
+              Buscar otro profesional
             </Button>
           </div>
-        </Form>
-      </Row>
+          <ul className="professional-list">
+            {professionals.map((professional) => (
+              <li key={professional.id} className="professional-item">
+                <Row style={{ width: "70rem" }}>
+                  <Col md="3"><div><strong>Nombre:</strong> {professional.firstName} {professional.lastName}</div></Col>
+                  <Col md="3"><div><strong>Costo:</strong> {professional.fee}</div></Col>
+                  <Col md="3"><div><strong>Teléfono:</strong> {professional.phone}</div></Col>
+                  <Col md="3"><div><strong>Dirección:</strong> {professional.address}</div></Col>
+                </Row>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

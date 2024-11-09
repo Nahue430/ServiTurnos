@@ -144,6 +144,34 @@ const AuthenticationContextProvider = ({ children }) => {
         }
     };
 
+
+    const getProfessionalByProfession = async (professionalProfession) => {
+        const token = getToken();
+        console.log("Token utilizado para la solicitud: ", token);  // Verifica el token aquí
+        try {
+            const response = await fetch(`${URL}professional/profession/${professionalProfession}`, { // Esto modifique en el api.
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                    "Accept": "*/*",
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error("Error al obtener los datos del profesional");
+            }
+
+            const data = await response.json();
+            console.log("Datos del profesional desde la API: ", data);  // Verifica lo que se devuelve
+            return data;
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
+    };
+
+
     // Método para actualizar los datos del profesional
     const updateProfessional = async (professionalId, professionalUpdateRequest) => {
         const token = localStorage.getItem('token'); // Obtener el token desde el localStorage o desde otra función
@@ -257,7 +285,7 @@ const deleteProfessional = async (professionalId) => {
         return decoded;
     };
     // Le paso a data por props, todos los metodos para retornarlos como valores en el componente AuthenticationContextProvider //
-    const data = { CreateCustomer, LoginUser, user, CreateProfessional, getCustomerById, updateCustomer, getProfessionalById, updateProfessional, deleteCustomer, deleteProfessional };
+    const data = { CreateCustomer, LoginUser, user, CreateProfessional, getCustomerById, updateCustomer, getProfessionalById,getProfessionalByProfession, updateProfessional, deleteCustomer, deleteProfessional };
     return (<AuthenticationContext.Provider value={data}>
         {children}
     </AuthenticationContext.Provider>
