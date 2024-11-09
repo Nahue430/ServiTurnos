@@ -44,7 +44,7 @@ const Login = () => {
                 } else if (decodedToken.TypeCustomer === "Professional") {
                     navigate("/homeProfessional", { replace: true });
                 } else if (decodedToken.TypeCustomer === "SuperAdmin") {
-                    navigate("/admin", { replace: true });
+                    navigate("/homeAdmin", { replace: true });
             }} else {
                 setError("Error en el inicio de sesión. Por favor, revise sus credenciales.");
             }

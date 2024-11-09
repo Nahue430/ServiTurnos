@@ -1,0 +1,33 @@
+/* HomeAdmin.css */
+
+.foto-perfil,
+.foto-generica {
+  width: 12em; /* Tamaño uniforme */
+  height: 12em; /* Tamaño uniforme */
+  object-fit: cover; /* Asegura que la imagen mantenga su proporción */
+  border-radius: 50%; /* Imagen circular */
+}
+
+/* Estilo de etiquetas y textos */
+.colorLabelPhoto {
+  border: 1px solid black;
+  padding: 10px;
+  border-radius: 2em; /* Bordes redondeados */
+  cursor: pointer;
+  background-color: black;
+  transition: background-color 0.3s ease; /* Suaviza el cambio de color */
+}
+
+.colorLabelPhoto:hover {
+  background-color: #e04c4c; /* Color en hover */
+}
+
+/* Esto oculta el input de tipo file */
+input[type="file"] {
+  display: none; 
+}
+
+/* Estilos para formularios */
+.form-control {
+  border-radius: 0.5em; /* Bordes redondeados */
+}
