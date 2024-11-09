@@ -1,17 +1,33 @@
 import React from "react";
-import { Col, Row } from 'react-bootstrap';
+import { Col, Row, Button } from 'react-bootstrap';
+import { Link, useLocation } from 'react-router-dom';
 import "./Header.css";
 
 const Header = () => {
+  const location = useLocation();
+
+  // Los botones desaparecen en estas rutas (Boton de Login - Sign up)
+  const hideButtonsPaths = ["/homeClient", "/homeProfessional", "/homeAdmin", "/clientSearch", "/"];
+
+  // Esto verifica en que ruta se encuentra, para desaparecer los botones
+  const shouldHideButtons = hideButtonsPaths.includes(location.pathname);
+
   return (
     <header className="header">
       <Row className="align-items-center">
         <Col md={{ span: 6, offset: 3 }} className="text-center">
           <h1>ServiTurnos</h1>
         </Col>
-        <Col md={3} className="text-end">
-          <p>Login | Signin | Contact</p>
-        </Col>
+        {!shouldHideButtons && (
+          <Col md={3} className="text-end">
+            <Link to="/login">
+              <Button variant="primary" className="me-2">Login</Button>
+            </Link>
+            <Link to="/register">
+              <Button variant="secondary">Sign up</Button>
+            </Link>
+          </Col>
+        )}
       </Row>
     </header>
   );

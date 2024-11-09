@@ -39,6 +39,8 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
+    background-color: #FFFFF0; /* Blanco marfil */
+    color: black; 
   }
   
   input:focus, select:focus {

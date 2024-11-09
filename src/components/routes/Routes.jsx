@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom'; 
 import WelcomePage from '../welcomePage/WelcomePage';
 import Register from '../register/Register';
 import Login from '../login/Login';
@@ -7,7 +7,6 @@ import ResetPassword from '../resetPassword/ResetPassword';
 import HomeClient from '../homeClient/HomeClient';
 import HomeProfessional from '../homeProfessional/HomeProfessional';
 import ClientSearch from '../clientSearch/ClientSearch';
-import ManagementUsers from '../managementUsers/ManagementUsers'; // Ruta corregida
 import React from 'react';
 import AdminProtected from './AdminProtected';
 import CustomerProtected from './CustomerProtected';
@@ -20,7 +19,7 @@ import HomeAdmin from '../homeAdmin/HomeAdmin';
 
 const RoutesComponent = () => {
   return (
-    <Router>
+
       <Routes>
         <Route path="/" element={<WelcomePage />} />
         <Route path="/register" element={<Register />} />
@@ -73,7 +72,7 @@ const RoutesComponent = () => {
         />
 
       </Routes>
-    </Router>
+
   );
 };
 

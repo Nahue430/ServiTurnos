@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {Row, Col, Button} from 'react-bootstrap'
+import './RegisterPro.css';
 
 const RegisterPro = () => {
   const navigate = useNavigate();

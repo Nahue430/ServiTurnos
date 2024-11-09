@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { Form, Button, Alert, Col, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { AuthenticationContext } from '../../context/authenticationContext/AuthenticationContext';
+import './Login.css';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -56,7 +57,7 @@ const Login = () => {
 
     return (
         <>
-            <Form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit}>   
                 <Form.Group className="mb-3">
                     <Form.Label htmlFor="user">Usuario:</Form.Label>
                     <Form.Control
@@ -65,6 +66,7 @@ const Login = () => {
                         value={user}
                         onChange={(e) => setUser(e.target.value)}
                         required
+                        className="custom-input"
                     />
 
                     <Form.Label htmlFor="password">Contraseña:</Form.Label>
@@ -74,6 +76,7 @@ const Login = () => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
+                        className="custom-input"
                     />
                 </Form.Group>
 
