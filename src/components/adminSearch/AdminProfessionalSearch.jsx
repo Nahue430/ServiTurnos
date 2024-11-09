@@ -9,7 +9,7 @@ const AdminProfessionalSearch = () => {
     const [showForm, setShowForm] = useState(true);
     const navigate = useNavigate();
 
-    const { getProfessionalByProfession, GetAllProfessionals } = useContext(AuthenticationContext);
+    const { getProfessionalByProfession, GetAllProfessionals, deleteProfessional } = useContext(AuthenticationContext);
 
     const fetchProfessionals = async (profession) => {
         let data;
@@ -27,11 +27,22 @@ const AdminProfessionalSearch = () => {
         setProfessionals([]);
     };
 
+    const handleDelete = async (id) => {
+        const confirmed = window.confirm("¿Estás seguro de que deseas eliminar este profesional?");
+        if (confirmed) {
+            const success = await deleteProfessional(id);
+            if (success) {
+                setProfessionals(professionals.filter(professional => professional.id !== id));
+            } else {
+                alert("Error al eliminar el profesional");
+            }
+        }
+    };
+
     return (
         <div className="buscar-container">
             <Navbar bg="dark" variant="dark" expand="lg" fixed="top" className="w-100" style={{ marginTop: "75.5px" }}>
                 <Nav className="w-100 justify-content-between">
-                    {/* Botones siempre visibles */}
                     <Nav.Link as={Link} to="/HomeAdmin" className="mx-3">Volver</Nav.Link>
                     <Nav.Link as={Link} to="/" className="mx-3">Salir</Nav.Link>
                 </Nav>
@@ -79,9 +90,12 @@ const AdminProfessionalSearch = () => {
                             <li key={professional.id} className="professional-item">
                                 <Row style={{ width: "70rem" }}>
                                     <Col md="3"><div><strong>Nombre:</strong> {professional.firstName} {professional.lastName}</div></Col>
-                                    <Col md="3"><div><strong>Costo:</strong> {professional.fee}</div></Col>
-                                    <Col md="3"><div><strong>Teléfono:</strong> {professional.phone}</div></Col>
+                                    <Col md="2"><div><strong>Costo:</strong> {professional.fee}</div></Col>
+                                    <Col md="2"><div><strong>Teléfono:</strong> {professional.phone}</div></Col>
                                     <Col md="3"><div><strong>Dirección:</strong> {professional.address}</div></Col>
+                                    <Col md="2">
+                                        <Button variant="danger" onClick={() => handleDelete(professional.id)}>Eliminar</Button>
+                                    </Col>
                                 </Row>
                             </li>
                         ))}

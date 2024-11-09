@@ -61,19 +61,10 @@ const AdminClientSearch = () => {
 
     return (
         <div className="buscar-container">
-            <Navbar bg="dark" variant="dark" expand="lg" fixed="top" className="w-100" style={{ marginTop: "75.5px" }}>
+             <Navbar bg="dark" variant="dark" expand="lg" fixed="top" className="w-100" style={{ marginTop: "75.5px" }}>
                 <Nav className="w-100 justify-content-between">
-                    {showForm ? (
-                        <>
-                            <Nav.Link as={Link} to="/HomeAdmin" className="mx-3">Volver</Nav.Link>
-                            <Nav.Link as={Link} to="/" className="mx-3">Salir</Nav.Link>    
-                        </>
-                    ) : (
-                        <>
-                            <Nav.Link className="mx-3" onClick={handleResetSearch}>Volver</Nav.Link>
-                            <Nav.Link as={Link} to="/" className="mx-3">Salir</Nav.Link>
-                        </>
-                    )}
+                    <Nav.Link as={Link} to="/HomeAdmin" className="mx-3">Volver</Nav.Link>
+                    <Nav.Link as={Link} to="/" className="mx-3">Salir</Nav.Link>
                 </Nav>
             </Navbar>
 
@@ -101,7 +92,7 @@ const AdminClientSearch = () => {
                                 </Form.Control.Feedback>
                             </Col>
                             <Col lg="4">
-                                <Button variant="primary" onClick={fetchClientById}>
+                                <Button variant="secondary" onClick={fetchClientById}>
                                     Buscar
                                 </Button>
                             </Col>
@@ -114,7 +105,7 @@ const AdminClientSearch = () => {
                         </Row>
                         <Row>
                             <Col lg="12">
-                                <Button variant="primary" onClick={fetchAllClients}>
+                                <Button variant="secondary" onClick={fetchAllClients}>
                                     Buscar Todos
                                 </Button>
                             </Col>
@@ -153,7 +144,7 @@ const AdminClientSearch = () => {
                                     <Col md="2">
                                         <div><strong>Dirección:</strong> <span>{client.address}</span></div>
                                     </Col>
-                                    <Col md="2">
+                                    <Col md="1">
                                         <Button variant="danger" onClick={() => handleDelete(client.id)}>Eliminar</Button>
                                     </Col>
                                 </Row>
