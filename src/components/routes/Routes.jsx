@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom'; 
+import { Routes, Route } from 'react-router-dom';
 import WelcomePage from '../welcomePage/WelcomePage';
 import Register from '../register/Register';
 import Login from '../login/Login';
@@ -13,6 +13,8 @@ import CustomerProtected from './CustomerProtected';
 import ProfessionalProtected from './ProfessionalProtected';
 import HomeAdmin from '../homeAdmin/HomeAdmin';
 import AdminProfessionalSearch from '../adminSearch/AdminProfessionalSearch';
+import AdminClientSearch from '../adminSearch/AdminClientSearch';
+
 
 //debemos importar rutas privadas a este componente.
 //ruta privadas debe ir en otro componente.
@@ -21,67 +23,76 @@ import AdminProfessionalSearch from '../adminSearch/AdminProfessionalSearch';
 const RoutesComponent = () => {
   return (
 
-      <Routes>
-        <Route path="/" element={<WelcomePage />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
+    <Routes>
+      <Route path="/" element={<WelcomePage />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/login" element={<Login />} />
 
-        <Route
-          path="/registerPro"
-          element={
-            <ProfessionalProtected>
-              <RegisterPro />
-            </ProfessionalProtected>
-          }
-        />
-        <Route path="/reset-password" element={<ResetPassword />} />
+      <Route
+        path="/registerPro"
+        element={
+          <ProfessionalProtected>
+            <RegisterPro />
+          </ProfessionalProtected>
+        }
+      />
+      <Route path="/reset-password" element={<ResetPassword />} />
 
         // Ruta Privada para HomeClient
-        <Route
-          path="/homeClient"
-          element={
-            <CustomerProtected>
-              <HomeClient />
-            </CustomerProtected>
-          }
-        />
-        <Route
-          path="/homeProfessional"
-          element={
-            <ProfessionalProtected>
-              <HomeProfessional />
-            </ProfessionalProtected>
-          }
-        />
-        <Route
-          path="/clientSearch"
-          element={
-            <CustomerProtected>
-              <ClientSearch />
-            </CustomerProtected>
-          }
-        />
+      <Route
+        path="/homeClient"
+        element={
+          <CustomerProtected>
+            <HomeClient />
+          </CustomerProtected>
+        }
+      />
+      <Route
+        path="/homeProfessional"
+        element={
+          <ProfessionalProtected>
+            <HomeProfessional />
+          </ProfessionalProtected>
+        }
+      />
+      <Route
+        path="/clientSearch"
+        element={
+          <CustomerProtected>
+            <ClientSearch />
+          </CustomerProtected>
+        }
+      />
 
 
-        <Route
-          path="/homeAdmin"
-          element={
-            <AdminProtected>
-              <HomeAdmin />
-            </AdminProtected>
-          }
-        />
+      <Route
+        path="/homeAdmin"
+        element={
+          <AdminProtected>
+            <HomeAdmin />
+          </AdminProtected>
+        }
+      />
 
-        <Route
-          path="/adminProfessionalSearch"
-          element={
-            <AdminProtected>
-              <AdminProfessionalSearch />
-            </AdminProtected>
-          }
-        />
+      <Route
+        path="/adminProfessionalSearch"
+        element={
+          <AdminProtected>
+            <AdminProfessionalSearch />
+          </AdminProtected>
+        }
+      />
 
-      </Routes>
+      <Route
+        path="/adminClientSearch"
+        element={
+          <AdminProtected>
+            <AdminClientSearch />
+          </AdminProtected>
+        }
+      />
+
+    </Routes>
 
   );
 };

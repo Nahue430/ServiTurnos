@@ -9,7 +9,7 @@ const HomeAdmin = () => {
     <div className="perfil-container">
       <Navbar bg="dark" variant="dark" expand="lg" fixed="top" className="w-100" style={{ marginTop: "75.5px" }}>
         <Nav className="w-100 justify-content-between">
-          <Nav.Link as={Link} to="/#" className="mx-3">Clientes</Nav.Link>
+          <Nav.Link as={Link} to="/adminClientSearch" className="mx-3">Buscar Clientes</Nav.Link>
           <Nav.Link as={Link} to="/adminProfessionalSearch" className="mx-3">Buscar Profesionales</Nav.Link>
           <Nav.Link as={Link} to="/" className="mx-3">Salir</Nav.Link>
         </Nav>

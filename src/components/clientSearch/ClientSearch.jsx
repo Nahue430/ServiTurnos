@@ -26,6 +26,17 @@ const ClientSearch = () => {
     setProfessionals([]);
   };
 
+  // Función para ordenar por precio descendente
+  const handleSortByPrice = () => {
+    const sortedProfessionals = [...professionals].sort((a, b) => b.fee - a.fee);
+    setProfessionals(sortedProfessionals);
+  };
+  // Función para ordenar por precio ascendente
+  const handleSortByPriceAsc = () => {
+    const sortedProfessionals = [...professionals].sort((a, b) => a.fee - b.fee);
+    setProfessionals(sortedProfessionals);
+  };
+
   return (
     <div className="buscar-container">
       <Navbar bg="dark" variant="dark" expand="lg" fixed="top" className="w-100" style={{ marginTop: "75.5px" }}>
@@ -40,10 +51,10 @@ const ClientSearch = () => {
       {showForm && <h1>Seleccione el profesional que desea contratar:</h1>}
 
       {showForm && (
-    
-          <Form>
+
+        <Form>
           <Form.Group as={Row} className="centered-form">
-          <Row className="buscar-row">
+            <Row className="buscar-row">
               <Col lg="1">
                 <Form.Label column sm="4">Profesión:</Form.Label>
               </Col>
@@ -61,10 +72,10 @@ const ClientSearch = () => {
                   <option value="5">Refrigeración</option>
                 </Form.Control>
               </Col>
-              </Row>
-            </Form.Group>
-          </Form>
-      
+            </Row>
+          </Form.Group>
+        </Form>
+
       )}
 
       {Array.isArray(professionals) && professionals.length > 0 && (
@@ -73,6 +84,13 @@ const ClientSearch = () => {
           <div className="button-container text-center">
             <Button variant="secondary" onClick={handleResetSearch}>
               Buscar otro profesional
+            </Button>
+
+            <Button variant="primary" onClick={handleSortByPrice} style={{ marginLeft: '10px' }}>
+              Precio mas caro
+            </Button>
+            <Button variant="primary" onClick={handleSortByPriceAsc} style={{ marginLeft: '10px' }}>
+              Precio mas barato
             </Button>
           </div>
           <ul className="professional-list">

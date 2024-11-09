@@ -195,6 +195,31 @@ const AuthenticationContextProvider = ({ children }) => {
         }
     };
 
+    const GetAllCustomers = async () => {
+        try {
+            // Cambio de path //
+            const response = await fetch(URL + "customer", {
+                // Método GET del cliente //
+                method: "GET",
+                headers: {
+                    // Headers de la solicitud //
+                    "Accept": "*/*",
+                    "Authorization": `Bearer ${user}`
+                },
+            });
+    
+            if (!response.ok) {
+                throw new Error("Error al obtener los datos del cliente");
+            }
+    
+            const data = await response.json();
+            return data; // Devolvemos los datos del cliente
+        } catch (error) {
+            console.log(error);
+            return null;
+        }
+    };
+
 
     // Método para actualizar los datos del profesional
     const updateProfessional = async (professionalId, professionalUpdateRequest) => {
@@ -313,7 +338,7 @@ const deleteProfessional = async (professionalId) => {
         return decoded;
     };
     // Le paso a data por props, todos los metodos para retornarlos como valores en el componente AuthenticationContextProvider //
-    const data = { CreateCustomer, LoginUser, user, CreateProfessional, getCustomerById, updateCustomer, getProfessionalById,getProfessionalByProfession, updateProfessional, deleteCustomer, deleteProfessional, GetAllProfessionals };
+    const data = { CreateCustomer, LoginUser, user, CreateProfessional, getCustomerById, updateCustomer, getProfessionalById,getProfessionalByProfession, updateProfessional, deleteCustomer, deleteProfessional, GetAllProfessionals, GetAllCustomers };
     return (<AuthenticationContext.Provider value={data}>
         {children}
     </AuthenticationContext.Provider>
