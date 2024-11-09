@@ -12,6 +12,7 @@ import AdminProtected from './AdminProtected';
 import CustomerProtected from './CustomerProtected';
 import ProfessionalProtected from './ProfessionalProtected';
 import HomeAdmin from '../homeAdmin/HomeAdmin';
+import AdminProfessionalSearch from '../adminSearch/AdminProfessionalSearch';
 
 //debemos importar rutas privadas a este componente.
 //ruta privadas debe ir en otro componente.
@@ -67,6 +68,15 @@ const RoutesComponent = () => {
           element={
             <AdminProtected>
               <HomeAdmin />
+            </AdminProtected>
+          }
+        />
+
+        <Route
+          path="/adminProfessionalSearch"
+          element={
+            <AdminProtected>
+              <AdminProfessionalSearch />
             </AdminProtected>
           }
         />

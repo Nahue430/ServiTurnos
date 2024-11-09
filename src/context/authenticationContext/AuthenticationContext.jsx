@@ -171,6 +171,30 @@ const AuthenticationContextProvider = ({ children }) => {
         }
     };
 
+    const GetAllProfessionals = async () => {
+        const token = getToken();
+        try {
+            const response = await fetch(`${URL}professional`, {  // Cambia el endpoint según tu API
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                    "Accept": "*/*",
+                },
+            });
+    
+            if (!response.ok) {
+                throw new Error("Error al obtener los datos de los profesionales");
+            }
+    
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
+    };
+
 
     // Método para actualizar los datos del profesional
     const updateProfessional = async (professionalId, professionalUpdateRequest) => {
@@ -213,6 +237,10 @@ const AuthenticationContextProvider = ({ children }) => {
                 body: JSON.stringify(userRequest),
             });
 
+            if (response.status === 401) {
+                // Si el backend responde con 401, retorna null para indicar credenciales incorrectas
+                return null;
+            }
             if (!response.ok) {
                 throw new Error("Error al autenticar usuario");
             }
@@ -285,7 +313,7 @@ const deleteProfessional = async (professionalId) => {
         return decoded;
     };
     // Le paso a data por props, todos los metodos para retornarlos como valores en el componente AuthenticationContextProvider //
-    const data = { CreateCustomer, LoginUser, user, CreateProfessional, getCustomerById, updateCustomer, getProfessionalById,getProfessionalByProfession, updateProfessional, deleteCustomer, deleteProfessional };
+    const data = { CreateCustomer, LoginUser, user, CreateProfessional, getCustomerById, updateCustomer, getProfessionalById,getProfessionalByProfession, updateProfessional, deleteCustomer, deleteProfessional, GetAllProfessionals };
     return (<AuthenticationContext.Provider value={data}>
         {children}
     </AuthenticationContext.Provider>
@@ -295,4 +323,3 @@ const deleteProfessional = async (professionalId) => {
 
 export { AuthenticationContext };
 export default AuthenticationContextProvider;
-

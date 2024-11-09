@@ -19,6 +19,8 @@ const Register = () => {
   const [error, setError] = useState('');
   const [tarifaBase, setTarifaBase] = useState('');
   const [rubro, setRubro] = useState('');
+  const [phone, setPhone] = useState('');
+  const [address, setAddress] = useState('');
   // const [matricula, setMatricula] = useState('');
 
   const navigate = useNavigate();
@@ -33,7 +35,7 @@ const Register = () => {
       return;
     }
 
-    if (username.length < 5 || username.length > 15) {
+    if (username.length < 5 || username.length > 25) {
       setError('El nombre de usuario debe tener entre 5 y 15 caracteres.');
       return;
     }
@@ -64,6 +66,8 @@ const Register = () => {
         lastName,
         dni,
         email,
+        phone,
+        address
       };
 
 
@@ -81,6 +85,8 @@ const Register = () => {
         lastName,
         dni,
         email,
+        phone,
+        address,
         fee: Number(tarifaBase),
         profession: rubro,
       };
@@ -186,6 +192,28 @@ const Register = () => {
             />
           </label>
         </div>
+        <div>
+          <label>
+            Ingrese su telefono:
+            <input
+              type="text"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              required
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            Ingrese su domicilio:
+            <input
+              type="text"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              required
+            />
+          </label>
+        </div>
 
         <div>
           <label>
@@ -203,12 +231,12 @@ const Register = () => {
               <label>Selecciona tu rubro:
                 <select value={rubro} onChange={(e) => setRubro(Number(e.target.value))} required>
                   <option value="" disabled>Seleccione...</option>
-                  <option value="1">Gasista</option>
-                  <option value="2">Electricista</option>
-                  <option value="3">Plomero</option>
-                  <option value="4">Carpintero</option>
-                  <option value="5">Albañil</option>
-                  <option value="6">Refrigeracion</option>
+                  <option value="0">Gasista</option>
+                  <option value="1">Electricista</option>
+                  <option value="2">Plomero</option>
+                  <option value="3">Carpintero</option>
+                  <option value="4">Albañil</option>
+                  <option value="5">Refrigeracion</option>
                 </select>
               </label>
             </div>
