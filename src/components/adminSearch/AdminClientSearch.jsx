@@ -1,67 +1,32 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Form, Button, Row, Col, Navbar, Nav } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { AuthenticationContext } from '../../context/authenticationContext/AuthenticationContext';
-import './AdminClientSearch.css';
+import useSearchAndDelete from '../../components/useSearchAndDelete/UseSearchAndDelete';
+import './AdminSearch.css';
 
 const AdminClientSearch = () => {
-    const [clients, setClients] = useState([]);
-    const [showForm, setShowForm] = useState(true);
     const [clientId, setClientId] = useState('');
-    const [noResults, setNoResults] = useState(false);
-    const [idError, setIdError] = useState(false);
-
     const { GetAllCustomers, getCustomerById, deleteCustomer } = useContext(AuthenticationContext);
 
-    const fetchClientById = async () => {
-        if (!clientId) {
-            setIdError(true);
-            return;
-        }
-
-        setIdError(false);
-        const data = await getCustomerById(clientId);
-        setClients(data ? [data] : []);
-        setShowForm(false);
-        setNoResults(!data); // Solo muestra el mensaje si no se encuentra ningún cliente
-    };
-
-    const fetchAllClients = async () => {
-        setIdError(false);
-        const data = await GetAllCustomers();
-        setClients(data || []);
-        setShowForm(false);
-        setNoResults(!(data && data.length > 0)); // Solo muestra el mensaje si no hay clientes en total
-    };
-
-    const handleResetSearch = () => {
-        setShowForm(true);
-        setClients([]);
-        setClientId('');
-        setNoResults(false);
-        setIdError(false);
-    };
+    const {
+        items: clients,
+        showForm,
+        noResults,
+        error,
+        fetchItemById,
+        fetchAllItems,
+        resetSearch,
+        handleDelete,
+    } = useSearchAndDelete(getCustomerById, GetAllCustomers, deleteCustomer);
 
     const handleInputChange = (e) => {
         setClientId(e.target.value);
-        if (idError) setIdError(false); // Resetea el error cuando el usuario empieza a escribir
-    };
-
-    const handleDelete = async (id) => {
-        const confirmed = window.confirm("¿Estás seguro de que deseas eliminar este cliente?");
-        if (confirmed) {
-            const success = await deleteCustomer(id);
-            if (success) {
-                setClients(clients.filter(client => client.id !== id));
-            } else {
-                alert("Error al eliminar el cliente");
-            }
-        }
     };
 
     return (
         <div className="buscar-container">
-             <Navbar bg="dark" variant="dark" expand="lg" fixed="top" className="w-100" style={{ marginTop: "75.5px" }}>
+            <Navbar bg="dark" variant="dark" expand="lg" fixed="top" className="w-100" style={{ marginTop: "75.5px" }}>
                 <Nav className="w-100 justify-content-between">
                     <Nav.Link as={Link} to="/HomeAdmin" className="mx-3">Volver</Nav.Link>
                     <Nav.Link as={Link} to="/" className="mx-3">Salir</Nav.Link>
@@ -85,19 +50,18 @@ const AdminClientSearch = () => {
                                     placeholder="Ingrese el ID del cliente"
                                     value={clientId}
                                     onChange={handleInputChange}
-                                    isInvalid={idError} // Borde rojo cuando hay error
+                                    isInvalid={error}
                                 />
                                 <Form.Control.Feedback type="invalid">
                                     Por favor, ingrese un ID para realizar la búsqueda.
                                 </Form.Control.Feedback>
                             </Col>
                             <Col lg="4">
-                                <Button variant="secondary" onClick={fetchClientById}>
+                                <Button variant="secondary" onClick={() => fetchItemById(clientId)}>
                                     Buscar
                                 </Button>
                             </Col>
                         </Row>
-
                         <Row>
                             <Col lg="12">
                                 <Form.Label column sm="12">Buscar todos:</Form.Label>
@@ -105,7 +69,7 @@ const AdminClientSearch = () => {
                         </Row>
                         <Row>
                             <Col lg="12">
-                                <Button variant="secondary" onClick={fetchAllClients}>
+                                <Button variant="secondary" onClick={fetchAllItems}>
                                     Buscar Todos
                                 </Button>
                             </Col>
@@ -124,13 +88,13 @@ const AdminClientSearch = () => {
                 <div>
                     <h2>Clientes Encontrados:</h2>
                     <div className="button-container text-center">
-                        <Button variant="secondary" onClick={handleResetSearch}>
+                        <Button variant="secondary" onClick={resetSearch}>
                             Nueva Búsqueda
                         </Button>
                     </div>
-                    <ul className="client-list">
+                    <ul className="professional-list">
                         {clients.map((client) => (
-                            <li key={client.id} className="client-item">
+                            <li key={client.id} className="professional-item">
                                 <Row style={{ width: "70rem" }}>
                                     <Col md="3">
                                         <div><strong>Nombre:</strong> <span>{client.firstName} {client.lastName}</span></div>

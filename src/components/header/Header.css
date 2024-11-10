@@ -12,6 +12,7 @@
 .header h1 {
     margin: 0;
     font-size: 2em;
+    color: white;
 }
 
 .header p {
@@ -24,6 +25,7 @@
 .text-center {
     display: flex;
     justify-content: center; /* Centra el contenido horizontalmente */
+    
 }
 
 /* Estilo para asegurar que el texto de contacto no colapse el borde */
