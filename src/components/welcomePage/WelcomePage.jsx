@@ -1,12 +1,12 @@
-import { useState, useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
+import './WelcomePage.css';
 
 const WelcomePage = () => {
     const navigate = useNavigate();
     const buttonRef = useRef(null);
 
-    // Función para volver arriba
     const scrollToTop = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
@@ -19,61 +19,23 @@ const WelcomePage = () => {
         }
     };
 
-    const buttonStyle = {
-        backgroundColor: 'brown',
-        color: 'white',
-        border: 'none',
-        borderRadius: '5px',
-        padding: '10px 20px',
-        cursor: 'pointer',
-        marginTop: '20px',  // Añadir espacio entre el texto y el botón
-    };
-
-    const buttonStyleLogin = {
-        ...buttonStyle,
-        marginRight: '10px', // Separar los botones
-    };
-
-    const aboutSectionStyle = {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        textAlign: 'center',
-        marginTop: '30px',
-        padding: '20px',
-        backgroundColor: '#f8f9fa',
-        borderRadius: '8px',
-    };
-
-    const textStyle = {
-        fontSize: '20px',
-        lineHeight: '2',
-        wordWrap: 'break-word',
-        maxWidth: '800px',
-        margin: '0 auto',
-    };
-
-    const imageStyle = {
-        maxWidth: '100%',
-        height: 'auto',
-        marginTop: '10px',
-        marginBottom: '10px',
-    };
-
     return (
         <div>
             <h2>Bienvenido</h2>
-            <button style={buttonStyleLogin} onClick={() => handleNavigation('login')}>Iniciar sesión</button>
-            <button style={buttonStyle} onClick={() => handleNavigation('register')}>Registrarse</button>
-            <div>
+            <button className="buttonStyle" onClick={() => handleNavigation('login')}>Iniciar sesión</button>
+            <button className="buttonStyle" onClick={() => handleNavigation('register')}>Registrarse</button>
+
+            {/* Coloca la imagen justo debajo de los botones */}
+            <div className="image-container">
                 <img
                     src="https://img.freepik.com/foto-gratis/apreton-manos-senal-saludo_1139-111.jpg?t=st=1728687365~exp=1728690965~hmac=c2117559ce2f82804e1a24448f91c28286f0e9d96c10ee5506826f97e3d8b929&w=740"
                     alt="Imagen"
-                    style={imageStyle}
+                    className="blurred-image"
                 />
             </div>
-            <div style={aboutSectionStyle}>
-                <div style={textStyle}>
+
+            <div className="aboutSectionStyle">
+                <div className="textStyle">
                     <h3>Sobre nosotros</h3>
                     <p>
                         Nuestro objetivo es brindar a la población una forma más fácil y segura de conectarse con profesionales de diversas áreas.
@@ -84,10 +46,9 @@ const WelcomePage = () => {
                 </div>
             </div>
 
-            {/* Botón debajo del bloque de texto */}
             <Button
                 ref={buttonRef}
-                style={buttonStyle}
+                className="buttonStyle"
                 onClick={scrollToTop}
             >
                 Volver arriba

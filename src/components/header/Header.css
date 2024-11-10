@@ -25,7 +25,6 @@
 .text-center {
     display: flex;
     justify-content: center; /* Centra el contenido horizontalmente */
-    
 }
 
 /* Estilo para asegurar que el texto de contacto no colapse el borde */
