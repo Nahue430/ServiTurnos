@@ -66,7 +66,7 @@ const RoutesComponent = () => {
       />
 
       <Route
-        path="/reservas"
+        path="/reservasClient"
         element={
           <CustomerProtected>
             <ClientReservations />

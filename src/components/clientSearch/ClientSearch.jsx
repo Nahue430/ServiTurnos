@@ -43,7 +43,7 @@ const ClientSearch = () => {
         <Nav className="w-100 justify-content-between">
           <Nav.Link as={Link} to="/homeClient" className="mx-3">Perfil</Nav.Link>
           <Nav.Link as={Link} to="/clientSearch" className="mx-3">Buscar</Nav.Link>
-          <Nav.Link as={Link} to="/reservas" className="mx-3">Reservas</Nav.Link>
+          <Nav.Link as={Link} to="/reservasClient" className="mx-3">Reservas</Nav.Link>
           <Nav.Link as={Link} to="/" className="mx-3">Salir</Nav.Link>
         </Nav>
       </Navbar>

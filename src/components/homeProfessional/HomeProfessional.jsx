@@ -111,7 +111,7 @@ const HomeProfessional = () => {
       <Navbar bg="dark" variant="dark" expand="lg" fixed="top" className="w-100" style={{ marginTop: "75.5px" }}>
         <Nav className="w-100 justify-content-between">
           <Nav.Link as={Link} to="/homeProfessional" className="mx-3">Perfil</Nav.Link>
-          <Nav.Link as={Link} to="/reservas" className="mx-3">Reservas</Nav.Link>
+          <Nav.Link as={Link} to="/reservasProfessional" className="mx-3">Reservas</Nav.Link>
           <Nav.Link as={Link} to="/" className="mx-3">Salir</Nav.Link>
         </Nav>
       </Navbar>
