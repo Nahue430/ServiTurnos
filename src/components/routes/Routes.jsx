@@ -15,6 +15,7 @@ import HomeAdmin from '../homeAdmin/HomeAdmin';
 import AdminProfessionalSearch from '../adminSearch/AdminProfessionalSearch';
 import AdminClientSearch from '../adminSearch/AdminClientSearch';
 import ClientReservations from '../clientReservations/ClientReservations';
+import ProfessionalReservations from '../professionalReservations/ProfessionalReservations';
 
 
 //debemos importar rutas privadas a este componente.
@@ -90,6 +91,15 @@ const RoutesComponent = () => {
           <AdminProtected>
             <AdminProfessionalSearch />
           </AdminProtected>
+        }
+      />
+
+<Route
+        path="/reservasProfessional"
+        element={
+          <ProfessionalProtected>
+            <ProfessionalReservations />
+          </ProfessionalProtected>
         }
       />
 

@@ -379,6 +379,56 @@ const getProfessionalInMeetingsById = async (professionalId) => {
     }
 };
 
+const getMeetingsByProfessionalId = async (professionalId) => {
+    const token = getToken(); // Obtener el token de localStorage
+    try {
+        const response = await fetch(`${URL}meeting/professional/${professionalId}`, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error("Error al obtener las reuniones del profesional");
+        }
+
+        const data = await response.json();
+        return data; // Devolver los datos de las reuniones
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};
+
+const getCustomerInMeetingsById = async (customerId) => {
+    const token = getToken();
+    try {
+        const response = await fetch(`https://localhost:7212/api/customer/${customerId}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": `Bearer ${token}`,  // Agrega aquí el token válido
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error("Error al obtener los datos del cliente");
+        }
+
+        const data = await response.json();
+        console.log("Datos del profesional desde la API: ", data);
+        return data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};
+
+
 
 
     // Función para decodificar el JWT (se asume que tienes la librería jwt-decode)
@@ -388,7 +438,7 @@ const getProfessionalInMeetingsById = async (professionalId) => {
         return decoded;
     };
     // Le paso a data por props, todos los metodos para retornarlos como valores en el componente AuthenticationContextProvider //
-    const data = { CreateCustomer, LoginUser, user, CreateProfessional, getCustomerById, updateCustomer, getProfessionalById,getProfessionalByProfession, updateProfessional, deleteCustomer, deleteProfessional, GetAllProfessionals, GetAllCustomers, getMeetingsByCustomerId, getProfessionalInMeetingsById };
+    const data = { CreateCustomer, LoginUser, user, CreateProfessional, getCustomerById, updateCustomer, getProfessionalById,getProfessionalByProfession, updateProfessional, deleteCustomer, deleteProfessional, GetAllProfessionals, GetAllCustomers, getMeetingsByCustomerId, getProfessionalInMeetingsById, getMeetingsByProfessionalId, getCustomerInMeetingsById };
     return (<AuthenticationContext.Provider value={data}>
         {children}
     </AuthenticationContext.Provider>
