@@ -453,7 +453,26 @@ const deleteMeeting = async (meetingId) => {
 
 // Método para crear una reunión
 const createMeeting = async (meetingRequest) => {
-    const token = getToken(); // Recupera el token para la autenticación
+    const token = getToken();
+
+    // Convertir `meetingRequest.dateTime` a formato ISO 8601
+    const dateObj = new Date(meetingRequest.dateTime);
+    if (isNaN(dateObj)) {
+        console.error("Error: meetingRequest.dateTime no es una fecha válida:", meetingRequest.dateTime);
+        return null;
+    }
+    const formattedDate = dateObj.toISOString();
+    console.log("Fecha formateada que se enviará:", formattedDate);
+
+    const { customerId, professionalId } = meetingRequest;
+    const requestBody = {
+        customerId,
+        professionalId,
+        date: formattedDate,
+    };
+
+    console.log("Cuerpo de la solicitud que se enviará:", requestBody);
+
     try {
         const response = await fetch(`${URL}meeting`, {
             method: "POST",
@@ -462,20 +481,34 @@ const createMeeting = async (meetingRequest) => {
                 "Content-Type": "application/json",
                 "Accept": "*/*"
             },
-            body: JSON.stringify(meetingRequest),
+            body: JSON.stringify(requestBody),
         });
 
         if (!response.ok) {
+            const errorText = await response.text();
+            console.error("Error en la respuesta del servidor:", errorText);
             throw new Error("Error al crear la reunión");
         }
 
-        const data = await response.json();
-        return data; // Devuelve los datos de la reunión creada
+        // Verifica si la respuesta tiene contenido
+        let data = null;
+        const contentLength = response.headers.get("content-length");
+        if (contentLength && parseInt(contentLength, 10) > 0) {
+            data = await response.json();
+        }
+
+        return data;
     } catch (error) {
-        console.error(error);
+        console.error("Error en la creación de la reunión:", error);
         return null;
     }
 };
+
+
+
+
+
+
 
 
 
