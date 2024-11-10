@@ -428,6 +428,29 @@ const getCustomerInMeetingsById = async (customerId) => {
     }
 };
 
+// Método para eliminar una reunión por ID
+const deleteMeeting = async (meetingId) => {
+    const token = getToken(); // Recupera el token del usuario autenticado
+    try {
+        const response = await fetch(`${URL}meeting/${meetingId}`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": `Bearer ${token}`, // Añadir token de autorización
+                "Accept": "text/plain" // Acepta texto plano según la API
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error("Error al eliminar la reunión");
+        }
+
+        return true; // Devuelve `true` si la eliminación fue exitosa
+    } catch (error) {
+        console.error(error);
+        return false; // Devuelve `false` en caso de error
+    }
+};
+
 
 
 
@@ -438,7 +461,7 @@ const getCustomerInMeetingsById = async (customerId) => {
         return decoded;
     };
     // Le paso a data por props, todos los metodos para retornarlos como valores en el componente AuthenticationContextProvider //
-    const data = { CreateCustomer, LoginUser, user, CreateProfessional, getCustomerById, updateCustomer, getProfessionalById,getProfessionalByProfession, updateProfessional, deleteCustomer, deleteProfessional, GetAllProfessionals, GetAllCustomers, getMeetingsByCustomerId, getProfessionalInMeetingsById, getMeetingsByProfessionalId, getCustomerInMeetingsById };
+    const data = { CreateCustomer, LoginUser, user, CreateProfessional, getCustomerById, updateCustomer, getProfessionalById,getProfessionalByProfession, updateProfessional, deleteCustomer, deleteProfessional, GetAllProfessionals, GetAllCustomers, getMeetingsByCustomerId, getProfessionalInMeetingsById, getMeetingsByProfessionalId, getCustomerInMeetingsById, deleteMeeting };
     return (<AuthenticationContext.Provider value={data}>
         {children}
     </AuthenticationContext.Provider>

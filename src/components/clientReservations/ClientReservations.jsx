@@ -4,7 +4,7 @@ import { Table, Button, Modal, Navbar, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const ClientReservations = () => {
-  const { user, getMeetingsByCustomerId, getProfessionalInMeetingsById } = useContext(AuthenticationContext);
+  const { user, getMeetingsByCustomerId, getProfessionalInMeetingsById, deleteMeeting } = useContext(AuthenticationContext);
   const [reservations, setReservations] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedReservation, setSelectedReservation] = useState(null);
@@ -20,7 +20,7 @@ const ClientReservations = () => {
           // Aquí obtenemos el profesional de cada reserva
           const reservationsWithProfessionals = await Promise.all(customerReservations.map(async (reservation) => {
             const professional = await getProfessionalInMeetingsById(reservation.professionalId);
-            return { ...reservation, professional }; // Agregamos el profesional a la reserva
+            return { ...reservation, professional };
           }));
           setReservations(reservationsWithProfessionals);
         }
@@ -31,14 +31,18 @@ const ClientReservations = () => {
   }, [user, getMeetingsByCustomerId, getProfessionalInMeetingsById]);
 
   const handleDeleteReservation = async () => {
-    // Lógica para eliminar la reserva seleccionada
     if (selectedReservation) {
-      // Aquí deberías agregar la función para eliminar la reserva
-      // Ejemplo: await deleteReservation(selectedReservation.id);
+      try {
+        // Llamamos a la función de eliminación en el contexto con el ID de la reserva
+        await deleteMeeting(selectedReservation.id);
 
-      // Luego de eliminar, cerramos el modal y actualizamos las reservas
-      setReservations(reservations.filter(reservation => reservation.id !== selectedReservation.id));
-      setShowDeleteModal(false);
+        // Filtramos la reserva eliminada y actualizamos el estado
+        setReservations(reservations.filter(reservation => reservation.id !== selectedReservation.id));
+      } catch (error) {
+        console.error("Error al eliminar la reserva:", error);
+      } finally {
+        setShowDeleteModal(false);
+      }
     }
   };
 
@@ -53,12 +57,8 @@ const ClientReservations = () => {
   };
 
   return (
-    
-
-
-
     <div className="reservations-container">
-        <Navbar bg="dark" variant="dark" expand="lg" fixed="top" className="w-100" style={{ marginTop: "75.5px" }}>
+      <Navbar bg="dark" variant="dark" expand="lg" fixed="top" className="w-100" style={{ marginTop: "75.5px" }}>
         <Nav className="w-100 justify-content-between">
           <Nav.Link as={Link} to="/homeClient" className="mx-3">Perfil</Nav.Link>
           <Nav.Link as={Link} to="/clientSearch" className="mx-3">Buscar</Nav.Link>
@@ -74,7 +74,7 @@ const ClientReservations = () => {
             <th>Fecha</th>
             <th>Hora</th>
             <th>Profesional</th>
-            
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -84,7 +84,6 @@ const ClientReservations = () => {
                 <td>{new Date(reservation.date).toLocaleDateString()}</td>
                 <td>{new Date(reservation.date).toLocaleTimeString()}</td>
                 <td>{reservation.professional ? `${reservation.professional.firstName} ${reservation.professional.lastName}` : 'Cargando...'}</td>
-                
                 <td>
                   <Button variant="danger" onClick={() => handleShowDeleteModal(reservation)}>Eliminar</Button>
                 </td>
@@ -92,7 +91,7 @@ const ClientReservations = () => {
             ))
           ) : (
             <tr>
-              <td colSpan="5">No tienes reservas disponibles.</td>
+              <td colSpan="4">No tienes reservas disponibles.</td>
             </tr>
           )}
         </tbody>
