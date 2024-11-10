@@ -6,9 +6,12 @@ import "./ClientSearch.css";
 
 const ClientSearch = () => {
   const [professionals, setProfessionals] = useState([]);
+  const [selectedProfessional, setSelectedProfessional] = useState(null);
+  const [meetingDate, setMeetingDate] = useState("");
+  const [meetingTime, setMeetingTime] = useState("");
   const [showForm, setShowForm] = useState(true);
 
-  const { getProfessionalByProfession } = useContext(AuthenticationContext);
+  const { user, getProfessionalByProfession, createMeeting } = useContext(AuthenticationContext);
 
   const fetchProfessionals = async (profession) => {
     if (profession) {
@@ -21,21 +24,37 @@ const ClientSearch = () => {
     }
   };
 
-  const handleResetSearch = () => {
-    setShowForm(true);
-    setProfessionals([]);
+  const handleProfessionalSelect = (professional) => {
+    setSelectedProfessional(professional);
   };
 
-  // Función para ordenar por precio descendente
-  const handleSortByPrice = () => {
-    const sortedProfessionals = [...professionals].sort((a, b) => b.fee - a.fee);
-    setProfessionals(sortedProfessionals);
+  const handleCreateMeeting = async () => {
+    const decodedToken = JSON.parse(atob(user.split('.')[1])); // Aquí obtienes el customerId desde el token
+    const customerId = decodedToken.Id;
+  
+    // Verifica si las variables meetingDate y meetingTime tienen valores válidos
+    if (customerId && selectedProfessional && meetingDate && meetingTime) {
+      // Asegúrate de que la fecha y la hora sean válidas antes de crear el objeto Date
+      const combinedDateTimeString = `${meetingDate}T${meetingTime}:00.000Z`;
+      const combinedDateTime = new Date(combinedDateTimeString);
+  
+      if (isNaN(combinedDateTime)) {
+        alert("La fecha y hora seleccionadas no son válidas.");
+        return;
+      }
+  
+      await createMeeting({
+        customerId,
+        professionalId: selectedProfessional.id,
+        dateTime: combinedDateTime.toISOString()
+      });
+      alert("Reunión creada exitosamente");
+    } else {
+      alert("Por favor, completa todos los campos.");
+    }
   };
-  // Función para ordenar por precio ascendente
-  const handleSortByPriceAsc = () => {
-    const sortedProfessionals = [...professionals].sort((a, b) => a.fee - b.fee);
-    setProfessionals(sortedProfessionals);
-  };
+  
+
 
   return (
     <div className="buscar-container">
@@ -51,7 +70,6 @@ const ClientSearch = () => {
       {showForm && <h1>Seleccione el profesional que desea contratar:</h1>}
 
       {showForm && (
-
         <Form>
           <Form.Group as={Row} className="centered-form">
             <Row className="buscar-row">
@@ -59,10 +77,7 @@ const ClientSearch = () => {
                 <Form.Label column sm="4">Profesión:</Form.Label>
               </Col>
               <Col lg="6">
-                <Form.Control
-                  as="select"
-                  onChange={(e) => fetchProfessionals(e.target.value)}
-                >
+                <Form.Control as="select" onChange={(e) => fetchProfessionals(e.target.value)}>
                   <option value="">Seleccionar</option>
                   <option value="0">Gasista</option>
                   <option value="1">Electricista</option>
@@ -75,27 +90,17 @@ const ClientSearch = () => {
             </Row>
           </Form.Group>
         </Form>
-
       )}
 
       {Array.isArray(professionals) && professionals.length > 0 && (
         <div>
           <h2>Profesionales Encontrados:</h2>
           <div className="button-container text-center">
-            <Button variant="secondary" onClick={handleResetSearch}>
-              Buscar otro profesional
-            </Button>
-
-            <Button variant="primary" onClick={handleSortByPrice} style={{ marginLeft: '10px' }}>
-              Precio mas caro
-            </Button>
-            <Button variant="primary" onClick={handleSortByPriceAsc} style={{ marginLeft: '10px' }}>
-              Precio mas barato
-            </Button>
+            <Button variant="secondary" onClick={() => setShowForm(true)}>Buscar otro profesional</Button>
           </div>
           <ul className="professional-list">
             {professionals.map((professional) => (
-              <li key={professional.id} className="professional-item">
+              <li key={professional.id} className="professional-item" onClick={() => handleProfessionalSelect(professional)}>
                 <Row style={{ width: "70rem" }}>
                   <Col md="3"><div><strong>Nombre:</strong> {professional.firstName} {professional.lastName}</div></Col>
                   <Col md="3"><div><strong>Costo:</strong> {professional.fee}</div></Col>
@@ -105,6 +110,25 @@ const ClientSearch = () => {
               </li>
             ))}
           </ul>
+
+          {selectedProfessional && (
+            <div>
+              <h3>Programar una reunión con {selectedProfessional.firstName} {selectedProfessional.lastName}</h3>
+              <Form>
+                <Form.Group controlId="meetingDate">
+                  <Form.Label>Fecha de la reunión</Form.Label>
+                  <Form.Control type="date" value={meetingDate} onChange={(e) => setMeetingDate(e.target.value)} />
+                </Form.Group>
+                <Form.Group controlId="meetingTime">
+                  <Form.Label>Hora de la reunión</Form.Label>
+                  <Form.Control type="time" value={meetingTime} onChange={(e) => setMeetingTime(e.target.value)} />
+                </Form.Group>
+                <Button variant="primary" onClick={handleCreateMeeting}>
+                  Crear Reunión
+                </Button>
+              </Form>
+            </div>
+          )}
         </div>
       )}
     </div>

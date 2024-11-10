@@ -451,6 +451,32 @@ const deleteMeeting = async (meetingId) => {
     }
 };
 
+// Método para crear una reunión
+const createMeeting = async (meetingRequest) => {
+    const token = getToken(); // Recupera el token para la autenticación
+    try {
+        const response = await fetch(`${URL}meeting`, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json",
+                "Accept": "*/*"
+            },
+            body: JSON.stringify(meetingRequest),
+        });
+
+        if (!response.ok) {
+            throw new Error("Error al crear la reunión");
+        }
+
+        const data = await response.json();
+        return data; // Devuelve los datos de la reunión creada
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};
+
 
 
 
@@ -461,7 +487,7 @@ const deleteMeeting = async (meetingId) => {
         return decoded;
     };
     // Le paso a data por props, todos los metodos para retornarlos como valores en el componente AuthenticationContextProvider //
-    const data = { CreateCustomer, LoginUser, user, CreateProfessional, getCustomerById, updateCustomer, getProfessionalById,getProfessionalByProfession, updateProfessional, deleteCustomer, deleteProfessional, GetAllProfessionals, GetAllCustomers, getMeetingsByCustomerId, getProfessionalInMeetingsById, getMeetingsByProfessionalId, getCustomerInMeetingsById, deleteMeeting };
+    const data = { CreateCustomer, LoginUser, user, CreateProfessional, getCustomerById, updateCustomer, getProfessionalById,getProfessionalByProfession, updateProfessional, deleteCustomer, deleteProfessional, GetAllProfessionals, GetAllCustomers, getMeetingsByCustomerId, getProfessionalInMeetingsById, getMeetingsByProfessionalId, getCustomerInMeetingsById, deleteMeeting, createMeeting };
     return (<AuthenticationContext.Provider value={data}>
         {children}
     </AuthenticationContext.Provider>
