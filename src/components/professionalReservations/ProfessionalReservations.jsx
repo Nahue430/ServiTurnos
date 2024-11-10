@@ -4,7 +4,7 @@ import { Table, Button, Modal, Navbar, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const ProfessionalReservations = () => {
-  const { user, getMeetingsByProfessionalId, getCustomerInMeetingsById } = useContext(AuthenticationContext);
+  const { user, getMeetingsByProfessionalId, getCustomerInMeetingsById, deleteMeeting } = useContext(AuthenticationContext);
   const [reservations, setReservations] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedReservation, setSelectedReservation] = useState(null);
@@ -31,14 +31,18 @@ const ProfessionalReservations = () => {
   }, [user, getMeetingsByProfessionalId, getCustomerInMeetingsById]);
 
   const handleDeleteReservation = async () => {
-    // Lógica para eliminar la reserva seleccionada
     if (selectedReservation) {
-      // Aquí deberías agregar la función para eliminar la reserva
-      // Ejemplo: await deleteReservation(selectedReservation.id);
+      try {
+        // Llamamos a la función de eliminación en el contexto con el ID de la reserva
+        await deleteMeeting(selectedReservation.id);
 
-      // Luego de eliminar, cerramos el modal y actualizamos las reservas
-      setReservations(reservations.filter(reservation => reservation.id !== selectedReservation.id));
-      setShowDeleteModal(false);
+        // Filtramos la reserva eliminada y actualizamos el estado
+        setReservations(reservations.filter(reservation => reservation.id !== selectedReservation.id));
+      } catch (error) {
+        console.error("Error al eliminar la reserva:", error);
+      } finally {
+        setShowDeleteModal(false);
+      }
     }
   };
 
