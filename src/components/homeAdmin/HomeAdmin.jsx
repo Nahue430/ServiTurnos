@@ -11,6 +11,7 @@ const HomeAdmin = () => {
         <Nav className="w-100 justify-content-between">
           <Nav.Link as={Link} to="/adminClientSearch" className="mx-3">Buscar Clientes</Nav.Link>
           <Nav.Link as={Link} to="/adminProfessionalSearch" className="mx-3">Buscar Profesionales</Nav.Link>
+          <Nav.Link as={Link} to="/adminMeetingSearch" className="mx-3">Buscar Reservas</Nav.Link>
           <Nav.Link as={Link} to="/" className="mx-3">Salir</Nav.Link>
         </Nav>
       </Navbar>

@@ -182,11 +182,11 @@ const AuthenticationContextProvider = ({ children }) => {
                     "Accept": "*/*",
                 },
             });
-    
+
             if (!response.ok) {
                 throw new Error("Error al obtener los datos de los profesionales");
             }
-    
+
             const data = await response.json();
             return data;
         } catch (error) {
@@ -207,11 +207,11 @@ const AuthenticationContextProvider = ({ children }) => {
                     "Authorization": `Bearer ${user}`
                 },
             });
-    
+
             if (!response.ok) {
                 throw new Error("Error al obtener los datos del cliente");
             }
-    
+
             const data = await response.json();
             return data; // Devolvemos los datos del cliente
         } catch (error) {
@@ -284,232 +284,253 @@ const AuthenticationContextProvider = ({ children }) => {
     };
 
     // Método para eliminar un cliente por ID
-const deleteCustomer = async (customerId) => {
-    const token = getToken(); // Recupera el token del usuario autenticado
-    try {
-        const response = await fetch(`${URL}customer/${customerId}`, {
-            method: "DELETE",
-            headers: {
-                "Authorization": `Bearer ${token}`, // Añadir token de autorización
-                "Accept": "text/plain" // Acepta texto plano como indica la documentación de la API
+    const deleteCustomer = async (customerId) => {
+        const token = getToken(); // Recupera el token del usuario autenticado
+        try {
+            const response = await fetch(`${URL}customer/${customerId}`, {
+                method: "DELETE",
+                headers: {
+                    "Authorization": `Bearer ${token}`, // Añadir token de autorización
+                    "Accept": "text/plain" // Acepta texto plano como indica la documentación de la API
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error("Error al eliminar el cliente");
             }
-        });
 
-        if (!response.ok) {
-            throw new Error("Error al eliminar el cliente");
+            return true; // Devuelve `true` si la eliminación fue exitosa
+        } catch (error) {
+            console.error(error);
+            return false; // Devuelve `false` en caso de error
         }
-
-        return true; // Devuelve `true` si la eliminación fue exitosa
-    } catch (error) {
-        console.error(error);
-        return false; // Devuelve `false` en caso de error
-    }
-};
-
-// Método para eliminar un profesional por ID
-const deleteProfessional = async (professionalId) => {
-    const token = getToken(); // Recupera el token del usuario autenticado
-    try {
-        const response = await fetch(`${URL}professional/${professionalId}`, {
-            method: "DELETE",
-            headers: {
-                "Authorization": `Bearer ${token}`, // Añadir token de autorización
-                "Accept": "text/plain" // Acepta texto plano según la API
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error("Error al eliminar el profesional");
-        }
-
-        return true; // Devuelve `true` si la eliminación fue exitosa
-    } catch (error) {
-        console.error(error);
-        return false; // Devuelve `false` en caso de error
-    }
-};
-
-// Método para obtener las reuniones por ID de cliente
-const getMeetingsByCustomerId = async (customerId) => {
-    const token = getToken(); // Obtener el token de localStorage
-    try {
-        const response = await fetch(`${URL}meeting/customer/${customerId}`, {
-            method: "GET",
-            headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json",
-                "Accept": "*/*",
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error("Error al obtener las reuniones del cliente");
-        }
-
-        const data = await response.json();
-        return data; // Devolver los datos de las reuniones
-    } catch (error) {
-        console.error(error);
-        return null;
-    }
-};
-
-const getProfessionalInMeetingsById = async (professionalId) => {
-    const token = getToken();
-    try {
-        const response = await fetch(`https://localhost:7212/api/professional/${professionalId}`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "*/*",
-                "Authorization": `Bearer ${token}`,  // Agrega aquí el token válido
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error("Error al obtener los datos del profesional");
-        }
-
-        const data = await response.json();
-        console.log("Datos del profesional desde la API: ", data);
-        return data;
-    } catch (error) {
-        console.error(error);
-        return null;
-    }
-};
-
-const getMeetingsByProfessionalId = async (professionalId) => {
-    const token = getToken(); // Obtener el token de localStorage
-    try {
-        const response = await fetch(`${URL}meeting/professional/${professionalId}`, {
-            method: "GET",
-            headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json",
-                "Accept": "*/*",
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error("Error al obtener las reuniones del profesional");
-        }
-
-        const data = await response.json();
-        return data; // Devolver los datos de las reuniones
-    } catch (error) {
-        console.error(error);
-        return null;
-    }
-};
-
-const getCustomerInMeetingsById = async (customerId) => {
-    const token = getToken();
-    try {
-        const response = await fetch(`https://localhost:7212/api/customer/${customerId}`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "*/*",
-                "Authorization": `Bearer ${token}`,  // Agrega aquí el token válido
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error("Error al obtener los datos del cliente");
-        }
-
-        const data = await response.json();
-        console.log("Datos del profesional desde la API: ", data);
-        return data;
-    } catch (error) {
-        console.error(error);
-        return null;
-    }
-};
-
-// Método para eliminar una reunión por ID
-const deleteMeeting = async (meetingId) => {
-    const token = getToken(); // Recupera el token del usuario autenticado
-    try {
-        const response = await fetch(`${URL}meeting/${meetingId}`, {
-            method: "DELETE",
-            headers: {
-                "Authorization": `Bearer ${token}`, // Añadir token de autorización
-                "Accept": "text/plain" // Acepta texto plano según la API
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error("Error al eliminar la reunión");
-        }
-
-        return true; // Devuelve `true` si la eliminación fue exitosa
-    } catch (error) {
-        console.error(error);
-        return false; // Devuelve `false` en caso de error
-    }
-};
-
-// Método para crear una reunión
-const createMeeting = async (meetingRequest) => {
-    const token = getToken();
-
-    // Convertir `meetingRequest.dateTime` a formato ISO 8601
-    const dateObj = new Date(meetingRequest.dateTime);
-    if (isNaN(dateObj)) {
-        console.error("Error: meetingRequest.dateTime no es una fecha válida:", meetingRequest.dateTime);
-        return null;
-    }
-    const formattedDate = dateObj.toISOString();
-    console.log("Fecha formateada que se enviará:", formattedDate);
-
-    const { customerId, professionalId } = meetingRequest;
-    const requestBody = {
-        customerId,
-        professionalId,
-        date: formattedDate,
     };
 
-    console.log("Cuerpo de la solicitud que se enviará:", requestBody);
+    // Método para eliminar un profesional por ID
+    const deleteProfessional = async (professionalId) => {
+        const token = getToken(); // Recupera el token del usuario autenticado
+        try {
+            const response = await fetch(`${URL}professional/${professionalId}`, {
+                method: "DELETE",
+                headers: {
+                    "Authorization": `Bearer ${token}`, // Añadir token de autorización
+                    "Accept": "text/plain" // Acepta texto plano según la API
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error("Error al eliminar el profesional");
+            }
+
+            return true; // Devuelve `true` si la eliminación fue exitosa
+        } catch (error) {
+            console.error(error);
+            return false; // Devuelve `false` en caso de error
+        }
+    };
+
+    // Método para obtener las reuniones por ID de cliente
+    const getMeetingsByCustomerId = async (customerId) => {
+        const token = getToken(); // Obtener el token de localStorage
+        try {
+            const response = await fetch(`${URL}meeting/customer/${customerId}`, {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                    "Accept": "*/*",
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error("Error al obtener las reuniones del cliente");
+            }
+
+            const data = await response.json();
+            return data; // Devolver los datos de las reuniones
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
+    };
+
+    const getProfessionalInMeetingsById = async (professionalId) => {
+        const token = getToken();
+        try {
+            const response = await fetch(`https://localhost:7212/api/professional/${professionalId}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "*/*",
+                    "Authorization": `Bearer ${token}`,  // Agrega aquí el token válido
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error("Error al obtener los datos del profesional");
+            }
+
+            const data = await response.json();
+            console.log("Datos del profesional desde la API: ", data);
+            return data;
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
+    };
+
+    const getMeetingsByProfessionalId = async (professionalId) => {
+        const token = getToken(); // Obtener el token de localStorage
+        try {
+            const response = await fetch(`${URL}meeting/professional/${professionalId}`, {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                    "Accept": "*/*",
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error("Error al obtener las reuniones del profesional");
+            }
+
+            const data = await response.json();
+            return data; // Devolver los datos de las reuniones
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
+    };
+
+    const getCustomerInMeetingsById = async (customerId) => {
+        const token = getToken();
+        try {
+            const response = await fetch(`https://localhost:7212/api/customer/${customerId}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "*/*",
+                    "Authorization": `Bearer ${token}`,  // Agrega aquí el token válido
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error("Error al obtener los datos del cliente");
+            }
+
+            const data = await response.json();
+            console.log("Datos del profesional desde la API: ", data);
+            return data;
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
+    };
+
+    // Método para eliminar una reunión por ID
+    const deleteMeeting = async (meetingId) => {
+        const token = getToken(); // Recupera el token del usuario autenticado
+        try {
+            const response = await fetch(`${URL}meeting/${meetingId}`, {
+                method: "DELETE",
+                headers: {
+                    "Authorization": `Bearer ${token}`, // Añadir token de autorización
+                    "Accept": "text/plain" // Acepta texto plano según la API
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error("Error al eliminar la reunión");
+            }
+
+            return true; // Devuelve `true` si la eliminación fue exitosa
+        } catch (error) {
+            console.error(error);
+            return false; // Devuelve `false` en caso de error
+        }
+    };
+
+    // Método para crear una reunión
+    const createMeeting = async (meetingRequest) => {
+        const token = getToken();
+
+        // Convertir `meetingRequest.dateTime` a formato ISO 8601
+        const dateObj = new Date(meetingRequest.dateTime);
+        if (isNaN(dateObj)) {
+            console.error("Error: meetingRequest.dateTime no es una fecha válida:", meetingRequest.dateTime);
+            return null;
+        }
+        const formattedDate = dateObj.toISOString();
+        console.log("Fecha formateada que se enviará:", formattedDate);
+
+        const { customerId, professionalId } = meetingRequest;
+        const requestBody = {
+            customerId,
+            professionalId,
+            date: formattedDate,
+        };
+
+        console.log("Cuerpo de la solicitud que se enviará:", requestBody);
+
+        try {
+            const response = await fetch(`${URL}meeting`, {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                    "Accept": "*/*"
+                },
+                body: JSON.stringify(requestBody),
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error("Error en la respuesta del servidor:", errorText);
+                throw new Error("Error al crear la reunión");
+            }
+
+            // Verifica si la respuesta tiene contenido
+            let data = null;
+            const contentLength = response.headers.get("content-length");
+            if (contentLength && parseInt(contentLength, 10) > 0) {
+                data = await response.json();
+            }
+
+            return data;
+        } catch (error) {
+            console.error("Error en la creación de la reunión:", error);
+            return null;
+        }
+    };
+   // Metodo para que el admin obetenga todas las reservas de la plataforma
+const getAllReservations = async () => {
+    const token = getToken(); // Recuperamos el token de autenticación
 
     try {
-        const response = await fetch(`${URL}meeting`, {
-            method: "POST",
+        // Realizamos la solicitud GET al endpoint de reservas
+        const response = await fetch(`${URL}reservation`, { // Ajusta el endpoint de acuerdo a tu API
+            method: "GET",
             headers: {
-                "Authorization": `Bearer ${token}`,
+                "Authorization": `Bearer ${token}`,  // Añadir el token de autenticación
                 "Content-Type": "application/json",
                 "Accept": "*/*"
             },
-            body: JSON.stringify(requestBody),
         });
 
+        // Verificamos si la respuesta fue exitosa
         if (!response.ok) {
-            const errorText = await response.text();
-            console.error("Error en la respuesta del servidor:", errorText);
-            throw new Error("Error al crear la reunión");
+            throw new Error("Error al obtener las reservas");
         }
 
-        // Verifica si la respuesta tiene contenido
-        let data = null;
-        const contentLength = response.headers.get("content-length");
-        if (contentLength && parseInt(contentLength, 10) > 0) {
-            data = await response.json();
-        }
-
-        return data;
+        // Parseamos la respuesta como JSON y la retornamos
+        const data = await response.json();
+        return data; // Retorna las reservas
     } catch (error) {
-        console.error("Error en la creación de la reunión:", error);
-        return null;
+        console.error("Error al obtener las reservas: ", error);
+        return null; // Retorna null en caso de error
     }
 };
-
-
-
-
-
-
-
 
 
 
@@ -520,7 +541,7 @@ const createMeeting = async (meetingRequest) => {
         return decoded;
     };
     // Le paso a data por props, todos los metodos para retornarlos como valores en el componente AuthenticationContextProvider //
-    const data = { CreateCustomer, LoginUser, user, CreateProfessional, getCustomerById, updateCustomer, getProfessionalById,getProfessionalByProfession, updateProfessional, deleteCustomer, deleteProfessional, GetAllProfessionals, GetAllCustomers, getMeetingsByCustomerId, getProfessionalInMeetingsById, getMeetingsByProfessionalId, getCustomerInMeetingsById, deleteMeeting, createMeeting };
+    const data = { CreateCustomer, LoginUser, user, CreateProfessional, getCustomerById, updateCustomer, getProfessionalById, getProfessionalByProfession, updateProfessional, deleteCustomer, deleteProfessional, GetAllProfessionals, GetAllCustomers, getMeetingsByCustomerId, getProfessionalInMeetingsById, getMeetingsByProfessionalId, getCustomerInMeetingsById, deleteMeeting, createMeeting, getAllReservations };
     return (<AuthenticationContext.Provider value={data}>
         {children}
     </AuthenticationContext.Provider>

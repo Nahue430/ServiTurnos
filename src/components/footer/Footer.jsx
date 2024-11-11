@@ -10,7 +10,7 @@ const Footer = () => {
       <p>ServiTurnos ®</p>
             </Col>
             <Col md="6">
-            <p>Contactenos: serviturnos@gmail.com</p>
+            <p>Contactenos: contacto@serviturnos.com</p>
             </Col>
         </Row>
     </footer>

@@ -25,28 +25,32 @@ const HomeProfessional = () => {
       if (user) {
         const decodedToken = JSON.parse(atob(user.split('.')[1]));
         const professionalId = decodedToken.Id;
-
+  
         const professionalData = await getProfessionalById(professionalId);
         if (professionalData) {
           setUsername(professionalData.userName);
           setFirstName(professionalData.firstName);
           setLastName(professionalData.lastName);
           setEmail(professionalData.email);
-          setTarifa(professionalData.fee?.toString() || '');  // Convertir a string para el input
+          setTarifa(professionalData.fee?.toString() || '');
           setDni(professionalData.dni);
           setPassword(professionalData.password);
-
+  
           const professionMapping = [
-            'Gasista',
-            'Electricista',
-            'Plomero',
-            'Carpintero',
-            'Albañil',
-            'Refrigeracion'
+            'Gasista',      // 0
+            'Electricista', // 1
+            'Plomero',      // 2
+            'Carpintero',   // 3
+            'Albañil',      // 4
+            'Refrigeracion' // 5
           ];
-
+  
           let professionValue = professionalData.profession;
-          if (typeof professionValue === "number" && professionValue >= 0 && professionValue < professionMapping.length) {
+  
+          // Asigna directamente si `professionValue` es un string
+          if (typeof professionValue === "string") {
+            setProfession(professionValue);
+          } else if (typeof professionValue === "number" && professionValue >= 0 && professionValue < professionMapping.length) {
             setProfession(professionMapping[professionValue]);
           } else {
             console.error('Valor de profesión inválido:', professionValue);
@@ -55,9 +59,10 @@ const HomeProfessional = () => {
         }
       }
     };
-
+  
     fetchProfessional();
   }, [user, getProfessionalById]);
+  
 
   const handleFotoChange = (e) => {
     setFoto(URL.createObjectURL(e.target.files[0]));

@@ -16,6 +16,7 @@ import AdminProfessionalSearch from '../adminSearch/AdminProfessionalSearch';
 import AdminClientSearch from '../adminSearch/AdminClientSearch';
 import ClientReservations from '../clientReservations/ClientReservations';
 import ProfessionalReservations from '../professionalReservations/ProfessionalReservations';
+import AdminMeetingSearch from '../adminSearch/AdminMeetingSearch';
 
 
 //debemos importar rutas privadas a este componente.
@@ -111,6 +112,16 @@ const RoutesComponent = () => {
           </AdminProtected>
         }
       />
+
+      <Route
+        path="/adminMeetingSearch"
+        element={
+          <AdminProtected>
+            <AdminMeetingSearch />
+          </AdminProtected>
+        }
+      />
+
 
     </Routes>
 
