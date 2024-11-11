@@ -16,7 +16,6 @@ const HomeAdmin = () => {
         </Nav>
       </Navbar>
 
-      {/* Contenedor con el mensaje centrado vertical y horizontal */}
       <div className="centered-message">
         <div className="message-content">
           <h1>Bienvenido a la Sección Administrador</h1>

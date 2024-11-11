@@ -19,10 +19,6 @@ import ProfessionalReservations from '../professionalReservations/ProfessionalRe
 import AdminMeetingSearch from '../adminSearch/AdminMeetingSearch';
 
 
-//debemos importar rutas privadas a este componente.
-//ruta privadas debe ir en otro componente.
-// 
-
 const RoutesComponent = () => {
   return (
 

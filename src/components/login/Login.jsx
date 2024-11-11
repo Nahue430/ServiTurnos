@@ -19,7 +19,6 @@ const Login = () => {
         navigate('/reset-password');
     };
 
-    // Se le agrega async
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -28,18 +27,15 @@ const Login = () => {
             return;
         }
 
-        // Define el objeto userRequest dentro de este bloque
         const userRequest = {
             username: user,
             password: password,
         };
 
         try {
-            // Llama a LoginUser y guarda la respuesta en response
             const decodedToken = await LoginUser(userRequest);
             
             if (decodedToken !== null) {
-                // Redirige dependiendo del tipo de usuario
                 if (decodedToken.TypeCustomer === "Customer") {
                     navigate("/clientSearch", { replace: true });
                 } else if (decodedToken.TypeCustomer === "Professional") {

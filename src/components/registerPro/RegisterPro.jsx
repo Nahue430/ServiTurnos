@@ -11,30 +11,25 @@ const RegisterPro = () => {
   const [tarifaBase, setTarifaBase] = useState('');
   const [error, setError] = useState('');
 
-  // Verifica si el rubro seleccionando requiere matrícula
   const isMatriculaRequired = !(rubro === 'Carpintero' || rubro === 'Plomero' || rubro === 'Otro');
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setError('');
 
-    // Validar que todos los campos requeridos estén completos
     if ((!rubro.trim() || !tarifaBase.trim()) || (isMatriculaRequired && !matricula.trim())) {
       setError('Todos los campos son obligatorios.');
       return;
     }
 
-    // Validar que la tarifa base no tenga más de 5 dígitos
     if (tarifaBase.length > 5) {
       setError('La tarifa base no puede tener más de 5 dígitos.');
       return;
     }
 
-    // Si todo es válido, mostrar los datos (puedes hacer el registro aquí)
     console.log({ rubro, matricula, tarifaBase });
 
-    // Redirigir al siguiente paso
-    navigate('/HomeProfessional');  // Redirigir al componente de gestión de perfil de profesional
+    navigate('/HomeProfessional');
   };
 
   const handleBack = () => {
@@ -88,7 +83,7 @@ const RegisterPro = () => {
           </label>
         </div>
 
-        {error && <p style={{ color: 'red' }}>{error}</p>}  {/* Mostrar mensaje de error si es necesario */}
+        {error && <p style={{ color: 'red' }}>{error}</p>}
 
         <Row style={{padding: '10px'}}>
           <Col md="7">

@@ -5,7 +5,6 @@ import { Navigate } from 'react-router-dom';
 import { useContext } from 'react';
 
 const AdminProtected = ({children}) => {
-    // Recuperamos el user del contexto
     const { user } = useContext(AuthenticationContext);
     if (user == null) {
         return <Navigate to="/login" />
@@ -14,7 +13,7 @@ const AdminProtected = ({children}) => {
     if(TypeCustomer !== 'SuperAdmin'){
         return <Navigate to="/" />
     }
-    return <div>{children}</div> // Ejemplo
+    return <div>{children}</div>
 };
 
 

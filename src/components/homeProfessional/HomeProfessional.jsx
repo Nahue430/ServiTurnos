@@ -47,7 +47,6 @@ const HomeProfessional = () => {
   
           let professionValue = professionalData.profession;
   
-          // Asigna directamente si `professionValue` es un string
           if (typeof professionValue === "string") {
             setProfession(professionValue);
           } else if (typeof professionValue === "number" && professionValue >= 0 && professionValue < professionMapping.length) {
@@ -76,7 +75,6 @@ const HomeProfessional = () => {
     const decodedToken = JSON.parse(atob(user.split('.')[1]));
     const professionalId = decodedToken.Id;
 
-    // Estructura de datos para actualizar el profesional sin modificar la profesión
     const updatedProfessionalData = {
       userName: username,
       password: password,
@@ -84,7 +82,7 @@ const HomeProfessional = () => {
       lastName: lastName,
       dni: parseInt(dni, 10),
       email: email,
-      fee: parseInt(tarifa, 10)  // Convertir a número entero
+      fee: parseInt(tarifa, 10)
     };
 
     console.log("Datos actualizados enviados:", updatedProfessionalData);
@@ -92,7 +90,7 @@ const HomeProfessional = () => {
     const response = await updateProfessional(professionalId, updatedProfessionalData);
 
     if (response) {
-      setEditMode(false); // Desactiva el modo de edición
+      setEditMode(false);
       console.log("Datos del profesional actualizados correctamente");
     } else {
       console.error("Error al actualizar los datos del profesional");
@@ -106,7 +104,6 @@ const HomeProfessional = () => {
     const response = await deleteProfessional(professionalId);
 
     if (response) {
-      // Redirigir o cerrar sesión tras eliminar la cuenta
       window.location.href = "/";
     }
   };
@@ -115,7 +112,7 @@ const HomeProfessional = () => {
     <div className="perfil-container">
       <Navbar bg="dark" variant="dark" expand="lg" fixed="top" className="w-100" style={{ marginTop: "75.5px" }}>
         <Nav className="w-100 justify-content-between">
-          <Nav.Link as={Link} to="/homeProfessional" className="mx-3">Perfil</Nav.Link>
+          <Nav.Link as={Link} to="/homeProfessional" className="mx-3" >Perfil</Nav.Link>
           <Nav.Link as={Link} to="/reservasProfessional" className="mx-3">Reservas</Nav.Link>
           <Nav.Link as={Link} to="/" className="mx-3">Salir</Nav.Link>
         </Nav>
@@ -240,11 +237,11 @@ const HomeProfessional = () => {
 
             <div className="text-right">
               {editMode ? (
-                <Button variant="primary" onClick={handleSave} className="mr-2">Guardar Cambios</Button>
+                <Button variant="primary" onClick={handleSave} style={{ marginRight: '10px' }}>Guardar Cambios</Button>
               ) : (
-                <Button variant="secondary" onClick={toggleEditMode} className="mr-2">Editar Perfil</Button>
+                <Button variant="secondary" onClick={toggleEditMode} style={{ marginRight: '10px' }}>Editar Perfil</Button>
               )}
-              <Button variant="danger" onClick={() => setShowDeleteModal(true)}>Eliminar Cuenta</Button>
+              <Button variant="danger" onClick={() => setShowDeleteModal(true)}style={{ marginRight: '10px' }}>Eliminar Cuenta</Button>
             </div>
           </Form>
         </Col>

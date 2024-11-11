@@ -68,7 +68,6 @@ const HomeClient = () => {
     const response = await deleteCustomer(customerId);
 
     if (response) {
-      // Redirigir o cerrar sesión tras eliminar la cuenta
       window.location.href = "/";
     }
   };
@@ -168,13 +167,13 @@ const HomeClient = () => {
 
             <div className="text-right">
               {editMode ? (
-                <Button variant="primary" onClick={handleSave} className="mr-2">Guardar Cambios</Button>
+                <Button variant="primary" onClick={handleSave} style={{ marginRight: '10px' }}>Guardar</Button>
               ) : (
-                <Button variant="secondary" onClick={toggleEditMode} className="mr-2">Editar Perfil</Button>
+                <Button variant="secondary" onClick={toggleEditMode} style={{ marginRight: '10px' }}>Editar Perfil</Button>
               )}
-              <Button variant="danger" onClick={() => setShowDeleteModal(true)}>Eliminar Cuenta</Button>
+              <Button variant="danger" onClick={() => setShowDeleteModal(true)} >Eliminar Cuenta</Button>
             </div>
-          </Form>
+          </Form> 
         </Col>
       </Row>
 

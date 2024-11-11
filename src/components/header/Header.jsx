@@ -6,10 +6,8 @@ import "./Header.css";
 const Header = () => {
   const location = useLocation();
 
-  // Los botones desaparecen en estas rutas (Boton de Login - Sign up)
   const hideButtonsPaths = ["/homeClient", "/homeProfessional", "/homeAdmin", "/clientSearch", "/"];
 
-  // Esto verifica en que ruta se encuentra, para desaparecer los botones
   const shouldHideButtons = hideButtonsPaths.includes(location.pathname);
 
   return (

@@ -30,7 +30,7 @@
 
 .image-container {
     position: relative;
-    width: 600px; /* Ajusta el ancho según sea necesario */
+    width: 600px;
     margin: 20px auto;
 }
 
@@ -41,7 +41,6 @@
     border-radius: 12px;
 }
 
-/* Capa de pseudo-elemento para crear el efecto de difuminado de bordes */
 .image-container::before {
     content: "";
     position: absolute;
@@ -52,12 +51,12 @@
     border-radius: 12px;
     background: radial-gradient(
         circle,
-        rgba(255, 255, 255, 0) 15%, /* Centro claro */
-        rgba(255, 255, 255, 0) 35%, /* Centro claro */
-        rgba(255, 255, 255, 0.2) 50%, /* Empieza el difuminado ligero */
-        rgba(255, 255, 255, 0.5) 70%, /* Aumenta gradualmente el difuminado */
-        rgba(255, 255, 255, 0.8) 85%, /* Difuminado intenso */
-        rgba(255, 255, 255, 1) 100% /* Totalmente difuminado en los bordes */
+        rgba(255, 255, 255, 0) 15%,
+        rgba(255, 255, 255, 0) 35%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 0.5) 70%,
+        rgba(255, 255, 255, 0.8) 85%,
+        rgba(255, 255, 255, 1) 100%
     );
-    pointer-events: none; /* Permite que la imagen sea interactiva */
+    pointer-events: none;
 }

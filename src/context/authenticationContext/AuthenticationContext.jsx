@@ -1,31 +1,25 @@
 import { createContext, useState } from 'react';
 
-// Crear el contexto //
 const AuthenticationContext = createContext();
 
-// Recuperar token de localStorage
-// getToken (revisión)
 const getToken = () => {
     const token = localStorage.getItem("token");
-    console.log("Token recuperado: ", token);  // Verifica que el token sea el correcto
+    console.log("Token recuperado: ", token);
     return token;
 };
 
 const AuthenticationContextProvider = ({ children }) => {
 
     const [user, setUser] = useState(getToken);
-    // Global para acceder desde todos los metodos //
     const URL = "https://localhost:7212/api/";
 
-    // Metodo para registrar un cliente // Accede al controler del POST de Customer
+
     const CreateCustomer = async (customerRequest) => {
-        try {                                  // Cambio de path //
+        try {
             const response = await fetch(URL + "customer", {
-                // Metodo post del cliente //
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    // Propio del metodo customer //
                     accept: '*/*',
                 },
                 body: JSON.stringify(customerRequest),
@@ -43,13 +37,11 @@ const AuthenticationContextProvider = ({ children }) => {
     };
 
     const CreateProfessional = async (professionalRequest) => {
-        try {                                  // Cambio de path //
+        try {
             const response = await fetch(URL + "professional", {
-                // Metodo post del cliente //
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    // Propio del metodo customer //
                     accept: '*/*',
                 },
                 body: JSON.stringify(professionalRequest),
@@ -67,7 +59,6 @@ const AuthenticationContextProvider = ({ children }) => {
     };
 
 
-    // Método para obtener el cliente por ID
     const getCustomerById = async (customerId) => {
         const token = getToken();
         try {
@@ -85,14 +76,13 @@ const AuthenticationContextProvider = ({ children }) => {
             }
 
             const data = await response.json();
-            return data; // Devolvemos los datos del cliente
+            return data;
         } catch (error) {
             console.error(error);
             return null;
         }
     };
 
-    // Método para actualizar los datos del cliente
     const updateCustomer = async (customerId, customerUpdateRequest) => {
         const token = getToken();
         try {
@@ -111,7 +101,7 @@ const AuthenticationContextProvider = ({ children }) => {
             }
 
             const data = await response.json();
-            return data; // Devolvemos los datos actualizados del cliente
+            return data;
         } catch (error) {
             console.error(error);
             return null;
@@ -120,7 +110,7 @@ const AuthenticationContextProvider = ({ children }) => {
 
     const getProfessionalById = async (professionalId) => {
         const token = getToken();
-        console.log("Token utilizado para la solicitud: ", token);  // Verifica el token aquí
+        console.log("Token utilizado para la solicitud: ", token);
         try {
             const response = await fetch(`${URL}professional/${professionalId}`, {
                 method: "GET",
@@ -136,7 +126,7 @@ const AuthenticationContextProvider = ({ children }) => {
             }
 
             const data = await response.json();
-            console.log("Datos del profesional desde la API: ", data);  // Verifica lo que se devuelve
+            console.log("Datos del profesional desde la API: ", data);
             return data;
         } catch (error) {
             console.error(error);
@@ -147,9 +137,9 @@ const AuthenticationContextProvider = ({ children }) => {
 
     const getProfessionalByProfession = async (professionalProfession) => {
         const token = getToken();
-        console.log("Token utilizado para la solicitud: ", token);  // Verifica el token aquí
+        console.log("Token utilizado para la solicitud: ", token);
         try {
-            const response = await fetch(`${URL}professional/profession/${professionalProfession}`, { // Esto modifique en el api.
+            const response = await fetch(`${URL}professional/profession/${professionalProfession}`, {
                 method: "GET",
                 headers: {
                     "Authorization": `Bearer ${token}`,
@@ -163,7 +153,7 @@ const AuthenticationContextProvider = ({ children }) => {
             }
 
             const data = await response.json();
-            console.log("Datos del profesional desde la API: ", data);  // Verifica lo que se devuelve
+            console.log("Datos del profesional desde la API: ", data);
             return data;
         } catch (error) {
             console.error(error);
@@ -174,7 +164,7 @@ const AuthenticationContextProvider = ({ children }) => {
     const GetAllProfessionals = async () => {
         const token = getToken();
         try {
-            const response = await fetch(`${URL}professional`, {  // Cambia el endpoint según tu API
+            const response = await fetch(`${URL}professional`, {
                 method: "GET",
                 headers: {
                     "Authorization": `Bearer ${token}`,
@@ -197,12 +187,9 @@ const AuthenticationContextProvider = ({ children }) => {
 
     const GetAllCustomers = async () => {
         try {
-            // Cambio de path //
             const response = await fetch(URL + "customer", {
-                // Método GET del cliente //
                 method: "GET",
                 headers: {
-                    // Headers de la solicitud //
                     "Accept": "*/*",
                     "Authorization": `Bearer ${user}`
                 },
@@ -213,7 +200,7 @@ const AuthenticationContextProvider = ({ children }) => {
             }
 
             const data = await response.json();
-            return data; // Devolvemos los datos del cliente
+            return data;
         } catch (error) {
             console.log(error);
             return null;
@@ -221,10 +208,10 @@ const AuthenticationContextProvider = ({ children }) => {
     };
 
 
-    // Método para actualizar los datos del profesional
+
     const updateProfessional = async (professionalId, professionalUpdateRequest) => {
-        const token = localStorage.getItem('token'); // Obtener el token desde el localStorage o desde otra función
-        const URL = 'https://localhost:7212/api/'; // Base URL de la API
+        const token = localStorage.getItem('token');
+        const URL = 'https://localhost:7212/api/';
 
         try {
             const response = await fetch(`${URL}professional/${professionalId}`, {
@@ -242,7 +229,7 @@ const AuthenticationContextProvider = ({ children }) => {
             }
 
             const data = await response.json();
-            return data; // Devolvemos los datos actualizados del profesional
+            return data;
         } catch (error) {
             console.error(error);
             return null;
@@ -250,7 +237,7 @@ const AuthenticationContextProvider = ({ children }) => {
     };
 
 
-    // LoginUser (revisión)
+
     const LoginUser = async (userRequest) => {
         try {
             const response = await fetch(URL + "Authentication/authenticate", {
@@ -263,7 +250,6 @@ const AuthenticationContextProvider = ({ children }) => {
             });
 
             if (response.status === 401) {
-                // Si el backend responde con 401, retorna null para indicar credenciales incorrectas
                 return null;
             }
             if (!response.ok) {
@@ -272,9 +258,9 @@ const AuthenticationContextProvider = ({ children }) => {
 
             const token = await response.text();
             localStorage.setItem("token", token);
-            setUser(token); // Establece el token en el estado
+            setUser(token);
 
-            const decodedToken = decodeJWT(token);  // Decodificar el JWT para obtener el tipo de usuario
+            const decodedToken = decodeJWT(token);
             return decodedToken;
 
         } catch (error) {
@@ -283,15 +269,15 @@ const AuthenticationContextProvider = ({ children }) => {
         }
     };
 
-    // Método para eliminar un cliente por ID
+
     const deleteCustomer = async (customerId) => {
-        const token = getToken(); // Recupera el token del usuario autenticado
+        const token = getToken();
         try {
             const response = await fetch(`${URL}customer/${customerId}`, {
                 method: "DELETE",
                 headers: {
-                    "Authorization": `Bearer ${token}`, // Añadir token de autorización
-                    "Accept": "text/plain" // Acepta texto plano como indica la documentación de la API
+                    "Authorization": `Bearer ${token}`,
+                    "Accept": "text/plain"
                 }
             });
 
@@ -299,22 +285,22 @@ const AuthenticationContextProvider = ({ children }) => {
                 throw new Error("Error al eliminar el cliente");
             }
 
-            return true; // Devuelve `true` si la eliminación fue exitosa
+            return true;
         } catch (error) {
             console.error(error);
-            return false; // Devuelve `false` en caso de error
+            return false;
         }
     };
 
-    // Método para eliminar un profesional por ID
+
     const deleteProfessional = async (professionalId) => {
-        const token = getToken(); // Recupera el token del usuario autenticado
+        const token = getToken();
         try {
             const response = await fetch(`${URL}professional/${professionalId}`, {
                 method: "DELETE",
                 headers: {
-                    "Authorization": `Bearer ${token}`, // Añadir token de autorización
-                    "Accept": "text/plain" // Acepta texto plano según la API
+                    "Authorization": `Bearer ${token}`,
+                    "Accept": "text/plain"
                 }
             });
 
@@ -322,16 +308,16 @@ const AuthenticationContextProvider = ({ children }) => {
                 throw new Error("Error al eliminar el profesional");
             }
 
-            return true; // Devuelve `true` si la eliminación fue exitosa
+            return true;
         } catch (error) {
             console.error(error);
-            return false; // Devuelve `false` en caso de error
+            return false;
         }
     };
 
-    // Método para obtener las reuniones por ID de cliente
+
     const getMeetingsByCustomerId = async (customerId) => {
-        const token = getToken(); // Obtener el token de localStorage
+        const token = getToken();
         try {
             const response = await fetch(`${URL}meeting/customer/${customerId}`, {
                 method: "GET",
@@ -347,7 +333,7 @@ const AuthenticationContextProvider = ({ children }) => {
             }
 
             const data = await response.json();
-            return data; // Devolver los datos de las reuniones
+            return data;
         } catch (error) {
             console.error(error);
             return null;
@@ -362,7 +348,7 @@ const AuthenticationContextProvider = ({ children }) => {
                 headers: {
                     "Content-Type": "application/json",
                     "Accept": "*/*",
-                    "Authorization": `Bearer ${token}`,  // Agrega aquí el token válido
+                    "Authorization": `Bearer ${token}`,
                 },
             });
 
@@ -380,7 +366,7 @@ const AuthenticationContextProvider = ({ children }) => {
     };
 
     const getMeetingsByProfessionalId = async (professionalId) => {
-        const token = getToken(); // Obtener el token de localStorage
+        const token = getToken();
         try {
             const response = await fetch(`${URL}meeting/professional/${professionalId}`, {
                 method: "GET",
@@ -396,7 +382,7 @@ const AuthenticationContextProvider = ({ children }) => {
             }
 
             const data = await response.json();
-            return data; // Devolver los datos de las reuniones
+            return data;
         } catch (error) {
             console.error(error);
             return null;
@@ -411,7 +397,7 @@ const AuthenticationContextProvider = ({ children }) => {
                 headers: {
                     "Content-Type": "application/json",
                     "Accept": "*/*",
-                    "Authorization": `Bearer ${token}`,  // Agrega aquí el token válido
+                    "Authorization": `Bearer ${token}`,
                 },
             });
 
@@ -428,15 +414,15 @@ const AuthenticationContextProvider = ({ children }) => {
         }
     };
 
-    // Método para eliminar una reunión por ID
+
     const deleteMeeting = async (meetingId) => {
-        const token = getToken(); // Recupera el token del usuario autenticado
+        const token = getToken();
         try {
             const response = await fetch(`${URL}meeting/${meetingId}`, {
                 method: "DELETE",
                 headers: {
-                    "Authorization": `Bearer ${token}`, // Añadir token de autorización
-                    "Accept": "text/plain" // Acepta texto plano según la API
+                    "Authorization": `Bearer ${token}`,
+                    "Accept": "text/plain"
                 }
             });
 
@@ -444,18 +430,18 @@ const AuthenticationContextProvider = ({ children }) => {
                 throw new Error("Error al eliminar la reunión");
             }
 
-            return true; // Devuelve `true` si la eliminación fue exitosa
+            return true;
         } catch (error) {
             console.error(error);
-            return false; // Devuelve `false` en caso de error
+            return false;
         }
     };
 
-    // Método para crear una reunión
+
     const createMeeting = async (meetingRequest) => {
         const token = getToken();
 
-        // Convertir `meetingRequest.dateTime` a formato ISO 8601
+
         const dateObj = new Date(meetingRequest.dateTime);
         if (isNaN(dateObj)) {
             console.error("Error: meetingRequest.dateTime no es una fecha válida:", meetingRequest.dateTime);
@@ -490,7 +476,6 @@ const AuthenticationContextProvider = ({ children }) => {
                 throw new Error("Error al crear la reunión");
             }
 
-            // Verifica si la respuesta tiene contenido
             let data = null;
             const contentLength = response.headers.get("content-length");
             if (contentLength && parseInt(contentLength, 10) > 0) {
@@ -503,44 +488,37 @@ const AuthenticationContextProvider = ({ children }) => {
             return null;
         }
     };
-   // Metodo para que el admin obetenga todas las reservas de la plataforma
 const getAllReservations = async () => {
-    const token = getToken(); // Recuperamos el token de autenticación
+    const token = getToken();
 
     try {
-        // Realizamos la solicitud GET al endpoint de reservas
-        const response = await fetch(`${URL}reservation`, { // Ajusta el endpoint de acuerdo a tu API
+        const response = await fetch(`${URL}reservation`, {
             method: "GET",
             headers: {
-                "Authorization": `Bearer ${token}`,  // Añadir el token de autenticación
+                "Authorization": `Bearer ${token}`,
                 "Content-Type": "application/json",
                 "Accept": "*/*"
             },
         });
 
-        // Verificamos si la respuesta fue exitosa
         if (!response.ok) {
             throw new Error("Error al obtener las reservas");
         }
 
-        // Parseamos la respuesta como JSON y la retornamos
         const data = await response.json();
-        return data; // Retorna las reservas
+        return data;
     } catch (error) {
         console.error("Error al obtener las reservas: ", error);
-        return null; // Retorna null en caso de error
+        return null;
     }
 };
 
 
-
-    // Función para decodificar el JWT (se asume que tienes la librería jwt-decode)
     const decodeJWT = (token) => {
         const payload = token.split('.')[1];
         const decoded = JSON.parse(atob(payload));
         return decoded;
     };
-    // Le paso a data por props, todos los metodos para retornarlos como valores en el componente AuthenticationContextProvider //
     const data = { CreateCustomer, LoginUser, user, CreateProfessional, getCustomerById, updateCustomer, getProfessionalById, getProfessionalByProfession, updateProfessional, deleteCustomer, deleteProfessional, GetAllProfessionals, GetAllCustomers, getMeetingsByCustomerId, getProfessionalInMeetingsById, getMeetingsByProfessionalId, getCustomerInMeetingsById, deleteMeeting, createMeeting, getAllReservations };
     return (<AuthenticationContext.Provider value={data}>
         {children}

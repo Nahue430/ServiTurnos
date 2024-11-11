@@ -5,17 +5,16 @@ import { Navigate } from 'react-router-dom';
 import { useContext } from 'react';
 
 const CustomerProtected = ({children}) => {
-    // Recuperamos el user del contexto
     const { user } = useContext(AuthenticationContext);
     if (user == null) {
         return <Navigate to="/login" />
     }
     const TypeCustomer = getClaimsFromToken(user).TypeCustomer;
     if(TypeCustomer !== 'Customer'){
-        localStorage.removeItem("token"); // Elimina el token del almacenamiento local
+        localStorage.removeItem("token");
         return <Navigate to="/" />
     }
-    return <div>{children}</div> // Ejemplo
+    return <div>{children}</div>
 };
 
 

@@ -1,56 +1,49 @@
-/* HomeAdmin.css */
-
-/* Estilos de las imágenes de perfil */
 .foto-perfil,
 .foto-generica {
-  width: 12em; /* Tamaño uniforme */
-  height: 12em; /* Tamaño uniforme */
-  object-fit: cover; /* Asegura que la imagen mantenga su proporción */
-  border-radius: 50%; /* Imagen circular */
+  width: 12em;
+  height: 12em;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
-/* Estilo de etiquetas y textos */
 .colorLabelPhoto {
   border: 1px solid black;
   padding: 10px;
-  border-radius: 2em; /* Bordes redondeados */
+  border-radius: 2em;
   cursor: pointer;
   background-color: black;
-  transition: background-color 0.3s ease; /* Suaviza el cambio de color */
+  transition: background-color 0.3s ease;
 }
 
 .colorLabelPhoto:hover {
-  background-color: #e04c4c; /* Color en hover */
+  background-color: #e04c4c;
 }
 
-/* Esto oculta el input de tipo file */
 input[type="file"] {
   display: none; 
 }
 
-/* Estilos para formularios */
 .form-control {
-  border-radius: 0.5em; /* Bordes redondeados */
+  border-radius: 0.5em;
 }
 
-/* Estilos para centrar el mensaje y título en la página */
 .perfil-container {
   display: flex;
   flex-direction: column;
-  height: 100vh; /* Ocupa toda la altura de la pantalla */
+  height: 100vh;
 }
 
 .centered-message {
   display: flex;
-  justify-content: center; /* Centra horizontalmente */
-  align-items: center; /* Centra verticalmente */
-  flex: 1; /* Ocupa todo el espacio disponible */
+  justify-content: center;
+  align-items: center;
+  flex: 1;
   padding: 20px;
-  text-align: center; /* Centra el texto */
+  text-align: center;
 }
 
 .message-content {
-  max-width: 800px; /* Opcional: límite en el tamaño del contenedor */
+  max-width: 800px;
 }
 
 .message-content h1 {

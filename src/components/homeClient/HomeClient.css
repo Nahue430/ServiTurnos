@@ -1,34 +1,29 @@
-/* HomeClient.css */
-
 .foto-perfil,
 .foto-generica {
-  width: 12em; /* Tamaño uniforme */
-  height: 12em; /* Tamaño uniforme */
-  object-fit: cover; /* Asegura que la imagen mantenga su proporción */
-  border-radius: 50%; /* Imagen circular */
+  width: 12em;
+  height: 12em;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
-/* Estilo de etiquetas y textos */
 .colorLabelPhoto {
   border: 1px solid black;
   padding: 10px;
-  border-radius: 2em; /* Bordes redondeados */
+  border-radius: 2em;
   cursor: pointer;
   background-color: black;
-  transition: background-color 0.3s ease; /* Suaviza el cambio de color */
+  transition: background-color 0.3s ease;
 }
 
 .colorLabelPhoto:hover {
-  background-color: #e04c4c; /* Color en hover */
+  background-color: #e04c4c;
 }
 
-/* Esto oculta el input de tipo file */
 input[type="file"] {
   display: none; 
 }
 
-/* Estilos para formularios */
 .form-control {
-  border-radius: 0.5em; /* Bordes redondeados */
+  border-radius: 0.5em;
 }
 

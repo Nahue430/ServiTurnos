@@ -29,20 +29,18 @@ const ClientSearch = () => {
   };
 
   const handleCreateMeeting = async () => {
-    const decodedToken = JSON.parse(atob(user.split('.')[1])); // Aquí obtienes el customerId desde el token
+    const decodedToken = JSON.parse(atob(user.split('.')[1]));
     const customerId = decodedToken.Id;
-  
-    // Verifica si las variables meetingDate y meetingTime tienen valores válidos
+
     if (customerId && selectedProfessional && meetingDate && meetingTime) {
-      // Asegúrate de que la fecha y la hora sean válidas antes de crear el objeto Date
       const combinedDateTimeString = `${meetingDate}T${meetingTime}:00.000Z`;
       const combinedDateTime = new Date(combinedDateTimeString);
-  
+
       if (isNaN(combinedDateTime)) {
         alert("La fecha y hora seleccionadas no son válidas.");
         return;
       }
-  
+
       await createMeeting({
         customerId,
         professionalId: selectedProfessional.id,
@@ -53,8 +51,24 @@ const ClientSearch = () => {
       alert("Por favor, completa todos los campos.");
     }
   };
-  
 
+  // Función para ordenar por precio descendente
+  const handleSortByPrice = () => {
+    const sortedProfessionals = [...professionals].sort((a, b) => b.fee - a.fee);
+    setProfessionals(sortedProfessionals);
+  };
+  
+  // Función para ordenar por precio ascendente
+  const handleSortByPriceAsc = () => {
+    const sortedProfessionals = [...professionals].sort((a, b) => a.fee - b.fee);
+    setProfessionals(sortedProfessionals);
+  };
+
+  // Función para limpiar la lista y mostrar el formulario de búsqueda
+  const handleSearchAnotherProfessional = () => {
+    setProfessionals([]); // Limpia la lista de profesionales
+    setShowForm(true); // Muestra el formulario de búsqueda
+  };
 
   return (
     <div className="buscar-container">
@@ -96,8 +110,15 @@ const ClientSearch = () => {
         <div>
           <h2>Profesionales Encontrados:</h2>
           <div className="button-container text-center">
-            <Button variant="secondary" onClick={() => setShowForm(true)}>Buscar otro profesional</Button>
+            <Button variant="secondary" onClick={handleSearchAnotherProfessional}>Buscar otro profesional</Button>
+            <Button variant="primary" onClick={handleSortByPrice} style={{ marginLeft: '10px' }}>
+              Precio más caro
+            </Button>
+            <Button variant="primary" onClick={handleSortByPriceAsc} style={{ marginLeft: '10px' }}>
+              Precio más barato
+            </Button>
           </div>
+
           <ul className="professional-list">
             {professionals.map((professional) => (
               <li key={professional.id} className="professional-item" onClick={() => handleProfessionalSelect(professional)}>

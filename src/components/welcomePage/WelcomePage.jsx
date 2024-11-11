@@ -25,7 +25,6 @@ const WelcomePage = () => {
             <button className="buttonStyle" onClick={() => handleNavigation('login')}>Iniciar sesión</button>
             <button className="buttonStyle" onClick={() => handleNavigation('register')}>Registrarse</button>
 
-            {/* Coloca la imagen justo debajo de los botones */}
             <div className="image-container">
                 <img
                     src="https://img.freepik.com/foto-gratis/apreton-manos-senal-saludo_1139-111.jpg?t=st=1728687365~exp=1728690965~hmac=c2117559ce2f82804e1a24448f91c28286f0e9d96c10ee5506826f97e3d8b929&w=740"

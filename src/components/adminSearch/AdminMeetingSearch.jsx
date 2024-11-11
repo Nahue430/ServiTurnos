@@ -11,7 +11,6 @@ const AdminMeetingSearch = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedReservation, setSelectedReservation] = useState(null);
 
-  // Función para obtener reservas desde la API
   const fetchReservations = async () => {
     setLoading(true);
     try {
@@ -19,21 +18,20 @@ const AdminMeetingSearch = () => {
         method: 'GET',
         headers: {
           'Accept': '*/*',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`, // Token JWT guardado de manera segura
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
       });
 
       if (response.ok) {
         const allReservations = await response.json();
 
-        // Obtenemos el cliente y el profesional de cada reserva en paralelo
         const reservationsWithDetails = await Promise.all(
           allReservations.map(async (reservation) => {
             const [client, professional] = await Promise.all([
               getCustomerInMeetingsById(reservation.customerId),
               getProfessionalInMeetingsById(reservation.professionalId),
             ]);
-            return { ...reservation, client, professional }; // Añadimos cliente y profesional a la reserva
+            return { ...reservation, client, professional };
           })
         );
 
@@ -48,11 +46,10 @@ const AdminMeetingSearch = () => {
     }
   };
 
-  // Eliminar reserva
   const handleDeleteReservation = async () => {
     if (selectedReservation) {
       try {
-        await deleteMeeting(selectedReservation.id); // Eliminamos la reserva
+        await deleteMeeting(selectedReservation.id);
         setReservations(reservations.filter(reservation => reservation.id !== selectedReservation.id));
       } catch (error) {
         console.error("Error al eliminar la reserva:", error);
@@ -83,12 +80,10 @@ const AdminMeetingSearch = () => {
 
       <h1>Reservas de Todos los Clientes</h1>
       
-      {/* Botón para ver las reservas */}
       <Button onClick={fetchReservations} disabled={loading}>
         {loading ? 'Cargando...' : 'Ver reservas'}
       </Button>
 
-      {/* Tabla de reservas */}
       <Table striped bordered hover className="mt-3">
         <thead>
           <tr>
@@ -120,7 +115,6 @@ const AdminMeetingSearch = () => {
         </tbody>
       </Table>
 
-      {/* Modal para confirmar eliminación */}
       <Modal show={showDeleteModal} onHide={handleCloseDeleteModal}>
         <Modal.Header closeButton>
           <Modal.Title>Confirmar Eliminación</Modal.Title>

@@ -17,10 +17,9 @@ const ProfessionalReservations = () => {
       const fetchReservations = async () => {
         const professionalReservations = await getMeetingsByProfessionalId(professionalId);
         if (professionalReservations) {
-          // Obtenemos el cliente de cada reserva
           const reservationsWithClients = await Promise.all(professionalReservations.map(async (reservation) => {
             const client = await getCustomerInMeetingsById(reservation.customerId);
-            return { ...reservation, client }; // Agregamos el cliente a la reserva
+            return { ...reservation, client };
           }));
           setReservations(reservationsWithClients);
         }
@@ -33,10 +32,8 @@ const ProfessionalReservations = () => {
   const handleDeleteReservation = async () => {
     if (selectedReservation) {
       try {
-        // Llamamos a la función de eliminación en el contexto con el ID de la reserva
         await deleteMeeting(selectedReservation.id);
 
-        // Filtramos la reserva eliminada y actualizamos el estado
         setReservations(reservations.filter(reservation => reservation.id !== selectedReservation.id));
       } catch (error) {
         console.error("Error al eliminar la reserva:", error);

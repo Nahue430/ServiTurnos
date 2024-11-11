@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Row, Col } from 'react-bootstrap';
 import './Register.css';
-import { AuthenticationContext } from '../../context/authenticationContext/AuthenticationContext'; // Importación de AuthenticationContext //
+import { AuthenticationContext } from '../../context/authenticationContext/AuthenticationContext';
 
 const Register = () => {
   const { CreateCustomer } = useContext(AuthenticationContext);
@@ -13,7 +13,6 @@ const Register = () => {
   const [dni, setDni] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  // const [confirmPassword, setConfirmPassword] = useState('');
   const [email, setEmail] = useState('');
   const [userType, setUserType] = useState('cliente');
   const [error, setError] = useState('');
@@ -21,7 +20,6 @@ const Register = () => {
   const [rubro, setRubro] = useState('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
-  // const [matricula, setMatricula] = useState('');
 
   const navigate = useNavigate();
   
@@ -29,7 +27,6 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validación de campos
     if (!username.trim() || !password.trim() || !email.trim() || !firstName.trim() || !lastName.trim() || !dni.trim()) {
       setError('Todos los campos son obligatorios y no pueden contener solo espacios.');
       return;
@@ -49,13 +46,6 @@ const Register = () => {
       setError('El nombre de usuario no puede contener espacios.');
       return;
     }
-
-    // if (password !== confirmPassword) {
-    //   alert('Las contraseñas no coinciden. Por favor, ingréselas nuevamente.');
-    //   return;
-    // }
-
-    // División de usuarios //
 
     if (userType === 'cliente') {
 
@@ -132,18 +122,6 @@ const Register = () => {
             />
           </label>
         </div>
-
-        {/* <div>
-          <label>
-            Repita la contraseña ingresada:
-            <input
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              required
-            />
-          </label>
-        </div> */}
 
         <div>
           <label>
@@ -240,12 +218,6 @@ const Register = () => {
                 </select>
               </label>
             </div>
-
-            {/* <div>
-              <label>Ingrese su matrícula:
-                <input type="text" value={matricula} onChange={(e) => setMatricula(e.target.value)} required />
-              </label>
-            </div> */}
 
             <div>
               <label>Ingrese su tarifa base:

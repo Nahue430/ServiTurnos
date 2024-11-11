@@ -1,7 +1,7 @@
 import './App.css';
 import Footer from './components/footer/Footer';
 import Header from './components/header/Header';
-import RoutesComponent from './components/routes/Routes'; // Asegúrate de que la ruta sea correcta
+import RoutesComponent from './components/routes/Routes';
 import { BrowserRouter } from 'react-router-dom';
 
 

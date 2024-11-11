@@ -13,8 +13,6 @@ const ResetPassword = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        
-        // Aquí iría la lógica para enviar el mail de recuperación o consultar si esto se hace en el backend
 
         console.log(`Se envió un correo a: ${email}`);
     };
